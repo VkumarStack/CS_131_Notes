@@ -1,0 +1,48 @@
+# Introduction
+- There are various programming languages, and many of them are built using a common set of **paradigms** and **building-blocks**
+- A **programming language** is a *structured* system of communication designed to express computations in an *abstract* manner
+  - They allow for *programs* to be defined to specify the behavior of a computer
+  - *Universal* languages are capable of implementing most valid programs (e.g. Python, C++)
+- Different programming languages are typically tailored towards solving a certain *problem*, *research area*, or *business domain*
+  - e.g. JavaScript for frontend development, Go for backend development, etc.
+- Paradigms:
+  - **Imperative**: Programs are made up of statements, loops, and mutable variables
+    - Example: C
+  - **Object-Oriented**: Programs are organized into classes and objects which send *messages* (methods) to each other
+    - Example: Smalltalk
+  - **Functional**: Programs are made up to math-like functions - no iteration, but only expressions, functions, constants, and recursion
+    - Example: Haskell 
+  - **Logic**: Programs define a set of facts and rules
+    - Example: Prolog
+  - There can by *hybrids* of these presented paradigms
+- Building Blocks:
+  - **Type Checking**: Static typing, Dynamic typing
+  - **Parameter Passing**: By-value, By-reference, By-pointer, By-object reference, By-name
+  - **Scoping**: Lexical scoping, Dynamic scoping
+  - **Memory Management**: Manual, Automatic
+## Passing Variables
+- **Pass by Value**: The formal parameter is a *copy* of the original variable
+  - Altering the variable in the function does not affect the original variable (passed outside of the function)
+- **Pass by Reference**: The formal parameter *directly refers to the origin variable*
+  - Altering the variable in the function *does* affect the original variable (passed outside of the function)
+- **Pass by Pointer**: The formal parameter is a pointer that contains the address of the original variable
+  - This is not a *reference*, but rather just holds the *address* of the passed in variable - think of like a local copy of the pointer
+## Detailing a Language
+- **Syntax**: This specifies *how* programs are actually written in the language with respect to the syntax - what is legal
+  - E.g. In an example language function must be specified by a return type, function name, and a list of parameters
+  - This is essentially specifying *which sequence of tokens are allowed*
+  - Modern languages use an encoding called an **Extended Backus-Naur Form (EBNF)** to define the syntax
+- **Semantic**: This specifies the *behavior* of programs, which explains for each piece of syntax how the program should *behave*
+## Compilers, Linkers, Interpreters, etc.
+- A **compiler** is a program that translates a *program source* into *object modules* (can be machine language, bytecode, etc.)
+  - E.g. `foo.cpp` -> (Compiler) -> `foo.o`
+  - The source file is passed into a *lexical analyzer*, which breaks up the source file into a stream of tokens (lexical units) and passes it into a *parser*, which uses the language's grammar spec (EBNF) to validate the tokens that have valid syntax (here is where **syntax errors occur**)
+    - If the parsing is valid, the program is converted into an **abstract syntax tree**, which is passed through a **semantic analyzer** to check the semantic validity of the tree (here is where **semantic errors occur** - e.g. are you passing an int where a string is expected? )
+    - The semantic analyzer outputs an **annotated parse tree**, which contains helpful annotations (such as specifying the typing of variables), which is then passed to an **intermediate representation generator**, which produces an abstract representation of the program (independent of the original language) - e.g. assembly
+    - Finally, the intermediate representation is then converted into a machine-interpretable code (like in machine code or bytecode) via a **code generator**
+      - Bytecode is typically relevant to interpreted languages
+- A **linker** combines multiple object modules and libraries into a *single executable* file or library
+  - E.g. `foo.o, bar.o, bletch.o, C++ stdlib` -> (Linker) -> `final.exe`
+  - The linker handles any intercode dependencies between the object modules - so it handles any errors related to this
+- An **interpreter** is a program that directly executes programs without requiring them to first be compiled into machine language
+  - The source file is loaded into RAM, data structures are initialized (as needed by the interpreter), and the next statement is fetched to run (statement is interpreted and state is updated) until the program is finished running (no next statements)
