@@ -492,3 +492,167 @@
   - Example:
     - `(\x y -> x^3 + y^2) 10 3` -> `1009`
     - `map (\x -> 1/x) [3..5]` -> `[0.333333333, 0.25, 0.2]`
+- Example:
+  -     slopeIntercept m b =
+          (\x -> m*x + b)
+  - This function accepts values for *m* and *b* and then returns *another function* that captures those values of *m* and *b*
+  - When a function makes use of varialbes defined outside of its scope (in this case *m* and *b*), a *copy of those variables* must be captured and stored along with the function - this is known as a **closure**
+    - This is because, when the function is later called it must know what values to use 
+      - The variables that are captured are **free variables** (in this example, they are `m` and `b`, though `x` is a **bound variable**)
+    - In the above example, the `slopeIntercept 2 1` function returns a closure: the returned function `\x -> m*x + b` also captures the values associated with `m` and `b` as `2` and `1` respectively
+      - View this representation as returning `\x -> m*x + b` and an object `{'m': 2, 'b': 1}`
+- Formally, a **closure** is a combination of:
+  - A function of zero or more arguments that we wish to run at some point in the future
+  - A list of *free variables* and their *values* that were captured at the time the closure was created
+    - When a closure later runs, it uses the values of the free variables captured at the time it was created
+  - Struct Representation:
+    -     struct Closure {
+            Function f;
+            map<Variable, value> free_variables;
+          }
+- Example: 
+  -     foo x y =
+          (\z -> x + y - z)
+  - `foo 5 6 7` -> `4`
+    - This returns a *closure*, capturing *x* and *y* as *5* and *6*
+    - The closure is then evaluated with input *4*
+- Example: 
+  -     bar x y
+          (\x -> x + y)
+  - `bar 5 6 7` -> `13`
+    - Here, both `5` and `6` are passed into `bar`, but due to the scoping of the parameter names, the `x` in the lambda functions *hides* the outer `x` variable, and so only the `y` input gets caputred
+    - Thus, `bar 5 6` returns `(\x -> x + 6)` and this is called with `7` as an input, returning `13`
+### Partial Function Application
+- With **partial function application**, a function is called with *less than the full number of arguments*
+  - Example: $f(x, y, z) = x + y + z$
+    - $f'(z) = f(10, 20)$ is a new version of function that is a *closure* capturing $x$ and $y$
+      - $f'(z) = 10 + 20 + z$
+- Formally, **partial function application** is an operation where a new function *g* is defined by combining an existing function *f* that takes *two or more arguments* with default values for one or more of those arguments
+  - The new function *g* is a specialization of *f* with hard-coded values for some of *f*'s parameters
+- Example:
+  -     product_of x y z = x * y * z
+        product_5 = product_of 5
+        product_5_6 = product_5 6
+  - `product_5 2 3` -> `30`
+    - `product_5` is equal to `5 * y * z`
+  - `product_5_6 2` -> `30`
+    - `product_5_6` is equal to `5 * 6 * z`
+- Example:
+  - `cuber = map (\x -> x^3)`
+  - `cuber [2, 3, 5]` -> `[8, 27, 125]`
+  - Here, we are performing partial function application on the `map` function, returning a function that takes a list as input and returns the same list cubed
+### Currying
+- Currying transforms a function of multiple arguments to a series of functions of a single argument
+  - A function that takes multiple arguments if converted into a series of *nested functions* which each take a single argument
+  - Example: 
+    -     function f(x, y) {
+            return x + y;
+          }
+    -     function f(x) {
+            function g(y) {
+              x + y
+            }
+
+            return g;
+          }
+  - Example #2:
+    -     function f(x, y, z) = { return x + y + z; }
+    -     function f(x) {
+            function g(y) {
+              function h(z) {
+                return x + y + z;
+              } 
+              return h;
+            }
+            return g;
+          }
+      - The function that takes the *first argument* returns a function that takes the *second argument*, which returns a function that takes the *third argument*
+      - When you call `temp_func1 = f(10);`, the `10` is captured returning `10 + y + z`
+      - When you call `temp_func2 = temp_func1(20);`, now the `20` is captured returning `10 + 20`
+      - When you call `final_result = temp_func2(30);`, now the function is finally evaluated to `10 + 20 + 30` = `60` 
+  - Each nested function *returns a closure*
+- Under the hood, Haskell converts each function of more than one parameter into a *curried version* - this is why it is possible to perform partial function application in Haskell
+- Example: Curry the function `mult3 x y z = x * y * z`
+  -     \x -> (\y -> (\z -> (x * y * z)))
+  -     mult3 x -> (\y -> (\z -> x * y * z))
+  - The type signature of `mult3` is `Int -> Int -> Int -> Int`
+    - The *equivalent* type signature of the curried version is `Int -> (Int -> (Int -> Int))`
+- All functions in Haskell technically take *one parameter* - the ones that take multiple are curried under the hood
+### Algebraic Data Types and Immutable Data Structures
+- Example:
+  -     data Color = Red | Green | Blue
+        data Shape = 
+          Circle    { radius :: Float,
+                      color :: Color} | 
+          Rectangle { width :: Float, 
+                      height :: Float } |
+          Triangle  { base :: Float,
+                      height :: Float,
+                      color :: Color }
+  -     my_color = Red
+        my_circ = Circle { radius = 5.0, color = Blue }
+- Algebraic data types definitions in Haskell are akin to C++ structs, unions, and *enumerated types*
+- The simplest algebraic data type is essentially an enum:
+  - `data Color = Red | Green | Blue`
+  - This defines an algebraic data type called `Color` with *variants* `Red`, `Green`, or `Blue` - variants are separated by a `|`
+- More complex algebraic data types can also have one or more fields (like a C++ struct)
+  -     data Shape = 
+        Circle    { radius :: Float,
+                    color :: Color} | 
+        Rectangle { width :: Float, 
+                   height :: Float } |
+        Triangle  { base :: Float,
+                    height :: Float,
+                    color :: Color } |
+        Shapeless
+    - `my_circ = Circle { radius = 5.0, color = Blue }`
+  - Variants with *no fields* are nullary variants (like in the previous `Color` type)
+  - Every time a variant is defined, Haskell implicitly creates a constructor for that variant 
+  - Variants within an algebraic data type can have their *own unique set of fields* 
+- The type name of an algebraic data type *must* start with an uppercase letter - the vairants must *also* start with an uppercase letter
+- Alternate syntax:
+  -     data Shape = 
+                 -- radius color
+          Circle    Float Color | 
+                 -- width height color
+          Rectangle Float Float Color |
+                 -- base height color
+          Triangle  Float Float Color |
+          Shapeless
+  - `my_circ = Circle 5.0 Blue`
+- To process algebraic data types, one can use *pattern matching* - match the pattern of the fields of the variant
+  - Example:
+    -     getArea :: Shape -> Float
+          getArea (Circle r c     ) = pi * r^2
+          getArea (Rectangle w h c) = w * h
+          getArea (Triangle b h c ) = 0.5 * b * h
+          getArea (Shapeless      ) = 0
+    - Haskell *unpacks* a passed in algebraic data type's fields and passes each field value into the corresponding pattern variable
+- Example: Creating a tree of arbitrary type:
+  - `data MyTree a = Nil | Node a (MyTree a) (MyTree a)`
+  - Note how the generic type `a` must be specified *before* the specification of the variants using that abstract type
+  - Note how the left and right subtrees in the `Node` variant must specify a tree of type `a`: `(MyTree a)` 
+- Example: Using algebraic data types to create a simple linked list:
+  -     data List = 
+          Nil |
+          Node {
+            val :: Integer,
+            next :: List
+          }
+          deriving Show
+    - Note that the type of `next` is a `List`, because the next item can *either* be a `Nil` or `Node`
+  - Creating a list by hand: `head = Node 3 (Node 2 (Node 1 Nil))`
+  -     sumList :: List -> Integer
+        sumList (Nil) = 0
+        sumList (val next) = val + sumList next
+  -     addToEnd :: List -> List
+        addToEnd val (Nil) = Node val Nil
+        addToEnd val (curr_val next) = Node curr_val (addToEnd val next)
+    - Note because Haskell has *immutable data*, adding to the end of the list must return a *new list*
+- The drawbacks of immutability in Haskell are not necessarily that pronounced
+  - Consider a (balanced) binary search tree, if a new node must be added, then we do not necessarily need to create the *entire tree again* - we only need to create new nodes on the way to the insertion spot, and so the time complexity would be equivalent to the depth of the tree $O(\log n)$
+    - The replaced nodes are eventually garbage collected
+  - There are benefits from immutability with data structures:
+    - There is *thread safety*
+    - There is *ease in debugging*
+    - There is *cache friendliness*
