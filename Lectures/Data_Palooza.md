@@ -295,12 +295,16 @@
             float f = 3.14;
             foo((int)f);
           }
+    - In C++, explicit type conversion can be done also using `static_cast` - e.g. `static_cast<int>(fpi)`
+    - In Python: `int(fpi)`
   - Explicit Cast:
     -     void feed_young(Animal *a) {
             if (a->has_fur()) {
               ((Mammal *)a)->produce_milk();
             }
           }
+    - In C++, explicit casts can also be done using `dynamic_cast` - e.g. `dynamic_cast<Student*>(p)`
+      - This will return a `nullptr` if the cast fails
   - Implicit Conversion (aka coercion):
     -     void foo(float f) { ... }
           int main() {
@@ -315,4 +319,192 @@
           }
     - Most implicit casts are *upcasts*, meaning they go from a subclass to a superclass
       - *Downcasts* are usually explicit because they are not always valid
-  
+- Whenever an explicit conversion or cast is performed, what would otherwise be a compile time error check turns into a *runtime error check*
+  - Example:
+    -     class Person { ... }
+          class Student extends Person { ... }
+          class Professor extends Person { ... }
+
+          class Example {
+            public void do_your_thing(Professor q) {
+              q.give_a_lecture();
+            }
+
+            public void process_person(Person p) {
+              if (p.get_name() == "Carey")
+                // This would not be allowed because p is a Person and may not necessarily be 
+                // a Professor, resulting in a compile-time error
+                
+                // do_your_thing(p);
+
+                // This would now compile, but there would still be a runtime check (if strongly typed)
+                // that would throw an error if the cast is invalid
+                do_your_thing((Professor) p);
+            }
+          }
+- Most languages have a prioritized set of rules that govern implicit *conversions* (**coercions**)
+  - A coercion that converts a *narrow type* into a *wider type* is called a **type promotion**
+    - Example: Converting from an `int` to a `double`
+  - Example: C++'s rules (from top to bottom)
+    - If either operand is `long double` then convert the other to `long double`
+    - If either operand is `double` convert the other to `double`
+    - If either operand is `float` then convert the other to `float`
+    - ...
+- In a *strongly typed language*, every conversion or cast with potential for an issue is checked for validity at runtime
+  - In a *weakly typed language*, some invalid conversions or casts may not be checked at runtime
+    - There can still be checked casts, such as `dynamic_cast` in C++
+## Scoping
+- Every language has **scoping rules**, which govern the visibility of variables in a program
+  - A variable is *in-scope* if it can be explicitly accessed by its name in that region
+- Formally, the **scope** of a variable is the range of a program's instructions where the variable is known. A variable is *in-scope* if it can be accessed by name in a particular part of a program. A variable in scope has an **active binding**
+- The set of in-scope variables and functions at a particular point in a program is called its **lexical environment**
+  - Example:
+    - ![Scoping](./Images/Scoping.png)
+    - The lexical environment when doing `cout << "Puked"` is: `party()`, `dinner: "burgers"`, `drinks: 3`, `puke: 3`
+- A variable can be alive but not be in scope. The **lifetime** (creation to destruction) of a variable may include times when the variable is in scope and also times when it is not in scope
+  - Example:
+    -     void study(int how_long) {
+            while (how_long-- > 0)
+              cout << "Study!\n";
+            cout << "Partay!\n";
+          }
+
+          int main() {
+            int hrs = 10;
+            study(hrs);
+            cout << "I studied " << hrs << " hours!";
+          }
+    - The `hrs` variable has a lifetime that lasts from the start of `main` to the end, but it is not in scope when `study` is called
+  - Some programming languages like Python allow you to explicitly control the lifetime of a variable
+    -     def main():
+            var = "I exist"
+            ...
+            del var
+            print(var) # Error thrown
+    - This is not the same as controlling the lifetime of the *value* - this is just deleting the variable
+  - Values have lifetimes and this is often *independent* from the lifetime of variables
+    - Example:
+      -     class Dingleberry:
+              ...
+            def make_dingle():
+              d = Dingleberry()
+              return d
+
+            x = make_dingle()
+            if x.is_clinging()
+              print("Wipey wipey")
+        - The variable `d`'s lifetime ends after the `make_dingle` function, but its value still is alive even after
+- **Lexical scoping** is the most dominant scoping approach. Here, all programs are comrpised of a series of nested *contexts* (e.g. files, classes in those files, functions in those classes, blocks in those functions, etc.)
+  - All variables that are in scope at a position X in code are determined by looking at X's context first, then looking in successively larger enclosing contexts around X
+  - Example:
+    -     string a_secret = "Nerds are sexy!";
+
+          class Nerd {
+            public:
+            ...
+            void pick_nose(int count) {
+              int j;
+              for (j = 0; j < count; ++j)
+                // Here, everything in scope is: j, count, name, and a_secret
+                cout << name << " digs in!\n";
+            }
+
+            private:
+              string name;
+          };
+  - Python does `LEGB` rules for lexical scoping: first local, then enclosing, then global, and finally built-in 
+    - Example:
+      -     host = 'cindy'
+            def party():
+              guest = 'chen'
+              def use_hot_tub():
+                drink = 'white claw'
+                # print is discovered from built-in
+                print(host, 'and', guest, 'are tubbin') # guest is discovered from enclosing, host is discovered from global
+                print('and drinking', drink) # drink is discovered from local
+  - The contexts that can be considered here are *expressions*, *blocks*, *functions*, *classes*, *structs*, *namespaces*, and *global*
+  - ![Lexical Scoping](./Images/Lexical_Scoping.png)
+    - Each scope can only access *higher scopes*, it cannot access scopes at the same level (so a function cannot access the scope of another function even if the parent function calls it)
+- In **dynamic scoping**, when you reference a variable, the program tries to find it in the current block and its enclosing blocks
+  - If the variable cannot be found, the program then searches the calling function for the variable, and if that cannot be found then it continues to check that function's calling function and so forth
+  - Dynamic scoping is dead because it is unintuitive compared to lexical scoping - to understand dynamic scoping, once must know the order of function calls to figure out scoping whereas with lexical scoping it is possible to figure out the scoping just from the structure of the code itself
+  - Example:
+    -     func foo() {
+            y++;
+            print x, y
+          }
+
+          func bar() {
+            int y = 32;
+            foo();
+          }
+
+          func bletch() {
+            int x = -1, y = 5;
+            foo();
+          }
+
+          func main() {
+            int x = 1000;
+            // With this call:
+            // Call to bar() -> x: 1000, y: 32
+            // bar calls foo() -> x: 1000, y: 33, so 1000 and 33 is printed
+            // After all the functions end, the variables die
+            bar();
+            // Call to bletch() -> x: -1, y: 5
+            // Call to foo() -> x: -1, y: 6, so -1 and 6 is printed
+            bletch();
+          }
+## Memory Safety
+- Memory-safe languages *prevent memory operations that could lead to undefined behaviors*
+  - Many bugs and hacking vulnerabilities are due to memory unsafety
+  - Example:
+    -     int[] array = new int[20];
+          int i = 400;
+          System.out.println(array[i]) // Java will throw an exception here
+- Memory *unsafe* languages allow: 
+  - *Out-of-bound array indexes and unconstrained pointer arithmetic*
+    - Example:
+      -     int arr[10], *ptr = arr;
+            arr[-1] = 42; // Out of bounds
+            cout << *(ptr + 100); // Bad pointer arithmetic
+    - Memory safe languages will throw an exception for out of bounds access or disallow pointer arithmetic altogether
+  - *Casting of values to incompatible types*
+    - Example: 
+      -     int v;
+            Student *s = dynamic_cast<Student *>(&v);
+            s->study();
+    - Memory safe languages throw an exception or generates a compiler error for invalid casts
+  - *Use of uninitialized variables or pointers*
+    - Example:
+      -     int val, *ptr; // Both uninitialized
+            cout << val; // Could leak info
+            *ptr = -10; // Corrupts memory
+    - Memory safe languages throw an exception or generate a compiler error, or even hide pointers altogether (e.g. Python)
+  - *Use of dangling pointers*
+    - Example:
+      -     Student *s = new Student("Gerome");
+            delete s; // Student is no longer valid
+            s->study(); // Undefined behavior
+    - Memory safe languages prohibit programmer-controlled object destruction or ensure that objects are only destroyed when *all references to them disappear*
+- Preventing memory leaks is *not necessarily a criteria for memory safety*, because this does not result in undefined behavior - the program is still deterministic
+  - Languages with garbage collection are still capable of running out of memory
+### Garbage Collection
+- In **garbage collected** languages, the language manages all memory allocation and de-allocation automatically
+  - Memory that has been allocated but is *no longer referenced* is garbage collected
+  - This eliminates *most* memory leaks, eliminates dangling pointers and use of dead objects, eliminates double-free bugs, and eliminates manual memory management
+- As a good rule of thumb, garbage collection occurs for an object when there are no longer any references to that object
+  - No *local variables*, no *member variables*, no *global variables*
+  - Example:
+    -     public void do_some_work() {
+            Nerd nerd = new Nerd("Jen");
+          } // nerd's memory is a candidate for garbage collection
+    -     public void do_some_work() {
+            Nerd nerd = new Nerd("Jen");
+
+            nerd = new Nerd("Rick"); // Old nerd is candidate for garbage collection
+          }
+#### Mark and Sweep
+- This is an example of *bulk garbage collection*, which will typically only occur when memory runs low (so the program freezes execution)
+#### Reference Counting
+- This is not a bulk method, but occurs continuously
