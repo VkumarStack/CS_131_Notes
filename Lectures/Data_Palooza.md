@@ -506,5 +506,160 @@
           }
 #### Mark and Sweep
 - This is an example of *bulk garbage collection*, which will typically only occur when memory runs low (so the program freezes execution)
+- During the **mark phase**, the algorithm identifies all objects that are *still referred to* and thus are considered in-use
+  - An object is in-use if it is one of a key set of *root objects*, which may include global variables, local variables across all stack frames, and parameters on the *call stack*
+  - An object is also in-use if it is transitively *reachable* via a root object - like from following pointers or references from a root object
+    - ![Mark and Sweep](./Images/Mark_and_Sweep.png)
+  - Pseudocode:
+    -     def mark():
+            roots = get_all_roots_objs()
+            candidates = new Queue()
+            for each obj_ref in roots:
+              candidates.enqueue(obj_ref)
+              mark_as_in_use(obj_ref)
+            
+            while not candidates.empty():
+              c = candidates.dequeue()
+              for r in get_obj_refs_in_object(c):
+                if not is_marked(r):
+                  mark_as_in_use(r)
+                  candidates.enqueue(r)
+- During the **sweep phase**, the algorithm scans all heap memory from start to finish and frees all blocks not marked as being 'in-use'
+  - Each block in the heap holds a single object / value / array, and also has an *in-use flag*
+  - Recall that heap objects have a *header* denoting its size, previous object address, and next object address, and so it can be traversed (like a linked-list), freeing all objects with the in-use flag not set
+    - Freeing memory requires changing the `next` and `prev` pointers, as well as coalescing adjacent free blocks together
+    - ![Heap](./Images/Heap.png)
+  - Pseudocode:
+    -     def sweep():
+            p = pointer_to_first_block_in_heap()
+            end = end_of_heap()
+            while p < end:
+              if is_object_in_block_in_use(p):
+                reset_in_use(p)
+              else:
+                free(p)
+              p = p.next
+- An issue with the mark and sweep approach is **memory fragmentation**, which make it very slow or even impossible to find free chunks of memory big enough to accomodate new object allocations
+  - ![Fragmentation](./Images/Fragmentation.png)
+  - No more coalescing can be done here
+#### Mark and Compact
+- In **mark and compact**, there is no sweeping phase but rather a *compacting phase*, where all marked objects are compacted to a new *contiguous* block of memory
+  - By doing this, though, all existing pointers are now *wrong* so they must adjusted to the proper relocated address
+- Mark and compact is an expensive operation, but it prevents fragmentation
+- This also limits memory to *half of available memory*, since the other half must be reserved for compacting
+  - One half is free, the other half has the allocated objects, and this goes back and forth 
+- With both mark and sweep and mark and compact, it is impossible to predict when (and if) a given object will actually be freed by the collector - collection only occurs if there is memory pressure
+  - Since it is not known exactly when an object is garbage collected, there can be issues if those objects are hogging resources (other than memory) despite them being candidates for being garbage collected
+    - Example: If each object creates a large temporary file that is deleted upon destruction, and a device has a large amount of RAM, then the collector will likely not run and get rid of these temporary files
+    - This requires programmers to free resources manually rather than rely on garbage collectors
 #### Reference Counting
 - This is not a bulk method, but occurs continuously
+- Every object has a hidden count that tracks *how many references there are to it*
+  - Example:
+    -     def foo():
+            # The value associated with x (aka the string) has 1 reference now
+            x = "I love dogs"
+            # Reference count increments to now be 2
+            y = x 
+
+            # Decrements reference count, so it is now 1
+            # Technically, there is now a reference count of 1 also for the 'None' object
+            x = None
+
+            # Going out of scope, the reference count for each is now decremented
+- When an object is destroyed (its reference count hits zero), *all* objects transitively referenced by that object must also have their reference counts decreased
+  - ![Reference Count](./Images/Reference_Counting.png)
+    - When `v` goes away, its reference count goes to zero but then all transitive references (`engine`, `brake`, `wheel`, `blinkers`) also each decrease their reference count
+  - This can imply that *many* reference counts can be decremented (cascading) on just a single object disappearing
+    - This can, however, be ammortized by keeping a queue of pending references to be deleted and then deleting in batch (e.g. 100 references deleted at a time) rather than doing a full cascade
+- An issue with referencing counting is that it fails with *cyclical references*
+  - If `a` points to `b` and `b` points to `a`, then the reference count of `a` and `b` will never go to zero
+  - Other techniques will need to be used in this case
+- Referencing counting still suffers from fragmentation, since freed memory is not compacted
+  - There is also a downside in that we may need to reserve extra memory for the reference counts per each object
+### Ownership Model
+- An alternative to garbage collection is the **ownership model**, which is followed by Rust and C++ (with their smart pointers)
+  - The ownership model is done at *compile-time*, so there is no downsides of garbage collection (which happens during runtime)
+- In the ownership model, every object is "owned" by one or more variables. When the last owner variable's lifetime ends, the object it owns is freed automatically
+  - In some implementations, ownership can be transferred to a new variable, invalidating the old variable
+    -     var s1 = new String("I'm owned")
+          var s2 = s1 // Transfers ownership to s2 and invalidates s1
+          print(s1) // Error
+- In Rust's ownership model, every object is owned by a *single variable* in the program
+  - Example:
+    -     fn foo(s3: String) {
+            println!("{}", s3);
+          }
+
+          fn main() {
+            let s1 = String::from("I'm owned!!");
+            let s2 = s1; // Ownership is transferred to s2
+            // println!("{}", s1); // Compiler error
+
+            foo(s2); // Ownership is transferred from s2 to s3
+            // Because after foo(), the lifetime of s3 (which is the owner)
+            // ends, the memory is freed automatically
+            // println!("{}", s2); // Compiler error
+          }
+  - Rust supports *borrowing*, where a variable may refer to an object without taking ownership
+    - The borrower may request *exclusive* read/write access (for thread safety) or *non-exclusive* read/write access
+    - Example:
+      -     fn foo(s3: String) {
+              println!("{}", s3);
+            }
+
+            fn main() {
+              let s1 = String::from("I'm owned!!");
+              let s2 = s1; // Ownership is transferred to s2
+
+              foo(&s2); // Borrowing
+              println!("{}", s2);
+            }
+- In C++, a **smart pointer** works like a traditional pointer but also provides automatic memory management
+  - Each smart pointer holds a traditional pointer that refers to a dynamically allocated object or array, and is the *owner* of its assigned heap-allocated object
+    - It is responsible for freeing its memory when no longer needed
+  - When copies are made of a smart pointer, they coordinate and keep track of how many of them refer to the shared resource
+  - `std::unique_ptr` is a smart pointer that *exclusively* owns the responsibility for freeing a heap allocated object (typically when it goes out of scope)
+    -     #include<memory>
+          #include "nerd.h"
+          int main() {
+            std::unique_ptr<Nerd> p = std::make_unique<Nerd>("Carey", 100);
+            p->study(); // p acts like a regular pointer
+          } // As soon as p goes out of scope, since it is a local variable its destructor is called and it will automatically free the memory
+    - Copies cannot be made of unique_pointers
+      - This implies that it cannot be stored in data structures (since this would make a copy of the pointer)
+  - `std::shared_pointer` is a smart pointer that *shares* the responsibility for freeing a heap allocated object
+    -     #include<memory>
+          #include "nerd.h"
+          std::vector<std::shared_ptr<Nerd>> all_my_nerds;
+          void keep_track_of_nerd(std::shared_ptr<Nerd> n) {
+            // Pushing back the pointer itself now adds another reference, so the total count here is 3
+            all_my_nerds.push_back(n);
+          } // When this ends, the parameter n goes out of scope the count decrements to be 2
+
+          int main() {
+            // The object has one reference count 
+            std::shared_ptr<Nerd> p = std::make_shared<Nerd>("Carey", 100);
+            // Calling the method makes a copy of the pointer, so there is another shared pointer and now the reference count increases by one (to a total of 2)
+            keep_track_of_nerd(p);
+          } // P goes out of scope, so reference count decrements to 1
+
+          // Globals go out of scope, so reference count decrements to 0 and so the memory is freed
+### Destructors, Finalizers, and Disposal Methods
+- Objects may hold non-memory resources (dynamic objects, temporary files, etc.) which need to be released when their lifetime ends
+- **Destructor** methods are automatically called when an object's lifetime ends, and it is *guaranteed* that a destructor will run *immediately* at this time
+  - Resources and their disposal can be *controlled*
+    -     TempFile* temp_file = new TempFile();
+          ...
+          if (dont_need_anymore())
+            delete t;
+  - This is common in non-garbage-collected languages, such as C++
+- **Finalizer** methods are like destructors, but they are called by the *garbage collector* before it frees the object's memory
+  - These are used to release unmanaged resources (like file  handles or network connections) which are not garbage collected, but since they are not guaranteed to run, finalizers are a *last line of defense*
+    -     # Python finalizer
+          class SomeClass:
+            def __del__(self):
+              # Finalization code goes here
+  - Since garbage collection can occur at any time (or not even at all due to it only occurring because of *memory pressure*), finalizers are *non-deterministic* - one cannot predict when or if a finalizer will run
+- **Manual disposal** methods involve the programmer explicitly adding a disposal method for an object and updating their code to *explicitly call* it to force the disposal of resources - this is like a manually invoked destructor
+  - This allows a *guaranteed way* to free non-memory resources, with the cost that it *must be manually called*
