@@ -80,8 +80,8 @@
           Dog d("Kuma"), *p;
 
           // This is a reference type; we cannot insantiate a Shape object
-          // because it is not implemented (it is abstract), so all we can do 
-          // is declare a pointer
+          // because it is not implemented (it is abstract), so all we can 
+          // do is declare a pointer
           Shape *s;
 - **Type equivalence** is the criteria by which programming languages determine whether two values or variables are of equivalent types
   - One approach is to use **name equivalence**, which denotes equivalence if two variables / values have identical type names
@@ -92,7 +92,9 @@
               S s1, s2;
               T t1, t2;
               s1 = s2; // Works
-              s1 = t1; // Fails, despite equivalent structure due to name equivalence
+              // Fails, despite equivalent structure
+              // due to name equivalence
+              s1 = t1; 
             }
       - This is typical to statically typed languages
   - Another approach is **structural equivalence**, which denotes equivalence if structures are identical, regardless of type names
@@ -114,7 +116,8 @@
         - Memory safety is needed for strong typing because invalid memory accesses can result in types being accessed as if they were a *different type*
           -     int arr[3] = {10, 20, 30};
                 float salary = 120000.50;
-                // Because of how variables are stored on the stack, this will access the float like it is an int
+                // Because of how variables are stored on the stack, 
+                // this will access the float like it is an int
                 cout << arr[3];
       - To implement strong typing:
         - Before an expression is evaluated, the compiler or interpreter *validates* that all of the operands used in the expression have compatible types
@@ -169,7 +172,8 @@
 
               int main() {
                 Doctor d("Dr Fauci"); 
-                // This will be compiled, but at runtime this will cause an error
+                // This will be compiled, but at runtime 
+                // this will cause an error
                 partay(d);
               }
         - The downcast *must be checked at runtime* because there is no way to know at runtime, in general, whether or not the Person being passed in can actually be downcasted as a student
@@ -267,7 +271,8 @@
   - A **type conversion** takes a value of type *A* and generates a *new value* of type *B*
     -     int main() {
             float pi = 3.141;
-            // This is a conversion, because the bit representations are different (floating point versus int)
+            // This is a conversion, because the bit representations 
+            // are different (floating point versus int)
             cout << (int) pi; 
           }
     - Type conversions are typically used to convert between *primitives*
@@ -332,13 +337,15 @@
 
             public void process_person(Person p) {
               if (p.get_name() == "Carey")
-                // This would not be allowed because p is a Person and may not necessarily be 
-                // a Professor, resulting in a compile-time error
+                // This would not be allowed because p is a Person and 
+                // may not necessarily be a Professor, resulting in 
+                // a compile-time error
                 
                 // do_your_thing(p);
 
-                // This would now compile, but there would still be a runtime check (if strongly typed)
-                // that would throw an error if the cast is invalid
+                // This would now compile, but there would still be 
+                // a runtime check (if strongly typed) that would throw 
+                // an error if the cast is invalid
                 do_your_thing((Professor) p);
             }
           }
@@ -405,7 +412,8 @@
             void pick_nose(int count) {
               int j;
               for (j = 0; j < count; ++j)
-                // Here, everything in scope is: j, count, name, and a_secret
+                // Here, everything in scope is: 
+                // j, count, name, and a_secret
                 cout << name << " digs in!\n";
             }
 
@@ -420,8 +428,11 @@
               def use_hot_tub():
                 drink = 'white claw'
                 # print is discovered from built-in
-                print(host, 'and', guest, 'are tubbin') # guest is discovered from enclosing, host is discovered from global
-                print('and drinking', drink) # drink is discovered from local
+                # guest is discovered from enclosing
+                # host is discovered from global
+                print(host, 'and', guest, 'are tubbin') 
+                # drink is discovered from local
+                print('and drinking', drink) 
   - The contexts that can be considered here are *expressions*, *blocks*, *functions*, *classes*, *structs*, *namespaces*, and *global*
   - ![Lexical Scoping](./Images/Lexical_Scoping.png)
     - Each scope can only access *higher scopes*, it cannot access scopes at the same level (so a function cannot access the scope of another function even if the parent function calls it)
@@ -448,11 +459,13 @@
             int x = 1000;
             // With this call:
             // Call to bar() -> x: 1000, y: 32
-            // bar calls foo() -> x: 1000, y: 33, so 1000 and 33 is printed
+            // bar calls foo() -> x: 1000, y: 33, 
+            // so 1000 and 33 is printed
             // After all the functions end, the variables die
             bar();
             // Call to bletch() -> x: -1, y: 5
-            // Call to foo() -> x: -1, y: 6, so -1 and 6 is printed
+            // Call to foo() -> x: -1, y: 6,
+            // so -1 and 6 is printed
             bletch();
           }
 ## Memory Safety
@@ -461,7 +474,8 @@
   - Example:
     -     int[] array = new int[20];
           int i = 400;
-          System.out.println(array[i]) // Java will throw an exception here
+          // Java will throw an exception here
+          System.out.println(array[i]) 
 - Memory *unsafe* languages allow: 
   - *Out-of-bound array indexes and unconstrained pointer arithmetic*
     - Example:
@@ -501,8 +515,8 @@
           } // nerd's memory is a candidate for garbage collection
     -     public void do_some_work() {
             Nerd nerd = new Nerd("Jen");
-
-            nerd = new Nerd("Rick"); // Old nerd is candidate for garbage collection
+            // Old nerd is candidate for garbage collection
+            nerd = new Nerd("Rick"); 
           }
 #### Mark and Sweep
 - This is an example of *bulk garbage collection*, which will typically only occur when memory runs low (so the program freezes execution)
@@ -557,16 +571,19 @@
 - Every object has a hidden count that tracks *how many references there are to it*
   - Example:
     -     def foo():
-            # The value associated with x (aka the string) has 1 reference now
+            # The value associated with x (aka the string) 
+            # has 1 reference now
             x = "I love dogs"
             # Reference count increments to now be 2
             y = x 
 
             # Decrements reference count, so it is now 1
-            # Technically, there is now a reference count of 1 also for the 'None' object
+            # Technically, there is now a reference count of 
+            # 1 also for the 'None' object
             x = None
 
-            # Going out of scope, the reference count for each is now decremented
+            # Going out of scope, the reference count 
+            # for each is now decremented
 - When an object is destroyed (its reference count hits zero), *all* objects transitively referenced by that object must also have their reference counts decreased
   - ![Reference Count](./Images/Reference_Counting.png)
     - When `v` goes away, its reference count goes to zero but then all transitive references (`engine`, `brake`, `wheel`, `blinkers`) also each decrease their reference count
@@ -597,8 +614,9 @@
             // println!("{}", s1); // Compiler error
 
             foo(s2); // Ownership is transferred from s2 to s3
-            // Because after foo(), the lifetime of s3 (which is the owner)
-            // ends, the memory is freed automatically
+            // Because after foo(), the lifetime of s3 
+            // (which is the owner) ends, the memory is 
+            // freed automatically
             // println!("{}", s2); // Compiler error
           }
   - Rust supports *borrowing*, where a variable may refer to an object without taking ownership
@@ -625,7 +643,10 @@
           int main() {
             std::unique_ptr<Nerd> p = std::make_unique<Nerd>("Carey", 100);
             p->study(); // p acts like a regular pointer
-          } // As soon as p goes out of scope, since it is a local variable its destructor is called and it will automatically free the memory
+          } 
+          // As soon as p goes out of scope, since it is a local variable 
+          // its destructor is called and it will automatically free 
+          // the memory
     - Copies cannot be made of unique_pointers
       - This implies that it cannot be stored in data structures (since this would make a copy of the pointer)
   - `std::shared_pointer` is a smart pointer that *shares* the responsibility for freeing a heap allocated object
@@ -633,18 +654,24 @@
           #include "nerd.h"
           std::vector<std::shared_ptr<Nerd>> all_my_nerds;
           void keep_track_of_nerd(std::shared_ptr<Nerd> n) {
-            // Pushing back the pointer itself now adds another reference, so the total count here is 3
+            // Pushing back the pointer itself now adds another 
+            // reference, so the total count here is 3
             all_my_nerds.push_back(n);
-          } // When this ends, the parameter n goes out of scope the count decrements to be 2
+          } 
+          // When this ends, the parameter n goes out of 
+          // scope and the count decrements to be 2
 
           int main() {
             // The object has one reference count 
             std::shared_ptr<Nerd> p = std::make_shared<Nerd>("Carey", 100);
-            // Calling the method makes a copy of the pointer, so there is another shared pointer and now the reference count increases by one (to a total of 2)
+            // Calling the method makes a copy of the pointer, so there is 
+            // another shared pointer and now the reference count increases 
+            // by one (to a total of 2)
             keep_track_of_nerd(p);
           } // P goes out of scope, so reference count decrements to 1
 
-          // Globals go out of scope, so reference count decrements to 0 and so the memory is freed
+          // Globals go out of scope, so reference count decrements 
+          // to 0 and so the memory is freed
 ### Destructors, Finalizers, and Disposal Methods
 - Objects may hold non-memory resources (dynamic objects, temporary files, etc.) which need to be released when their lifetime ends
 - **Destructor** methods are automatically called when an object's lifetime ends, and it is *guaranteed* that a destructor will run *immediately* at this time
@@ -663,3 +690,175 @@
   - Since garbage collection can occur at any time (or not even at all due to it only occurring because of *memory pressure*), finalizers are *non-deterministic* - one cannot predict when or if a finalizer will run
 - **Manual disposal** methods involve the programmer explicitly adding a disposal method for an object and updating their code to *explicitly call* it to force the disposal of resources - this is like a manually invoked destructor
   - This allows a *guaranteed way* to free non-memory resources, with the cost that it *must be manually called*
+## Mutability / Immutability
+- Immutability is the property that a variable/value/object is *read-only*, meaning it cannot be changed once initialized
+  - Whenever a value must be modified, a *new object* is constructed with changes, based on the original value
+- Approaches:
+  - **Class Immutability**: The programmer can designate that *all objects of a class* are immutable after construction
+    - This is different from languages that allow *some objects* to be immutable (object immutability)
+    -     def main(): # Python
+            s = "Hello!" # Python strings are class immutable
+            s[0] = 'J' # Error raised
+  - **Object Immutability**: The programmer can designate *some objects* of a particular class as immutable
+    -     int main() {
+            Nerd j("Joe", 200); // mutable
+            const Nerd n("Carey", 100); // immutable
+            n.setIQ(120)l // Error raised
+          }
+  - **Assignability Immutability**: The programmer can designate that a *variable* may not be reassigned to a new value, but *mutations* can still be made to the original referred-to object
+    -     public static void someFunc() {
+            final Nerd n = Nerd("Carey", 100);
+            n = Nerd("Joe", 200); // Error raised
+            n.setIQ(120); // No error raised
+          }
+  - **Reference Immutability**: The programmer can prevent a *mutable object* from being mutated via a reference that's marked as immuatble
+    -     void examine(const Nerd& n); // Ensures n is not changed
+          int main() {
+            Nerd j("Joe", 200);
+            examine(j);
+          }
+- Immutability is useful because it can:
+  - Eliminate *aliasing bugs*: In $f(x, x)$, if $f$ cannot modify $x$ then there are no aliasing bugs
+  - Reduce *multithreading bugs* - this eliminates many race conditions
+  - Eliminate identity variability bugs
+  - Eliminate temporal coupling bugs
+  - Eliminate side effects
+  - Make testing easier
+  - Enable easy caching
+  - Enable runtime optimizations
+  - Ensure atomicity of failure
+# Data Function Palooza
+## Variable Binding and Parameter Passing Semantics
+- **Binding semantics** is the term used to describe the different ways a language associates a *variable name* with the actual *storage* that holds their values
+  - **Value Semantics**: A variable name is *directly bound* to the storage that holds the value (e.g. C, C++)
+    -     int main() {
+            int x = 5;
+          }
+      - In memory: `x:5`
+  - **Reference Semantics**: A variable name is directly bound to another variable's storage, like an alias (e.g. C++)
+    -     int main() {
+            int x = 5;
+            int &r = x;
+          }
+      - In memory: `x, r: 5`
+  - **Object Reference Semantics**: A variable name is bound to a *pointer* that points to an object/value (e.g. Python)
+    -     def main():
+            x = 5
+      - In memory: `x: ptr -> 5`
+  - **Name/Need Semantics**: A variable name is bound to a *pointer* that points to an *expression graph* that can be evaluated to get a value (e.g. Haskell)
+    -     main = do
+            let n = 2*10
+            let x = 5*n +3
+      - In memory: `n: 2 * 10`, `x: 5*n+3`
+- **Parameter passing semantics** are related to binding semantics
+  - **Value Semantics** (Pass by Value/Copy): The formal parameter gets a distinct copy of the argument's value
+  - **Reference Semantics** (Pass by Reference): The formal parameter is bound to the argument's storage, like an alias
+  - **Object Reference Semantics** (Pass by Object Reference / Pointer): The formal parameter is a *pointer* that points to the argument object
+  - **Name/Need Semantics** (Pass by Name / Need): The formal parameter is a *pointer* that points to an expression graph
+### Value Semantics
+- Every variable name is directly bound to *storage on the stack* that holds the variable's value
+  - On an initial binding, a memory cell is allocated (associated with the name) and the source expression is evaluated and *copied* into this cell
+  - If reassignment is performed, then the memory cell is updated with a *copy* of the new source expression
+- Since every variable has its own separate storage, the assignment or mutation of *one variable* does not affect the others
+### Reference Semantics
+- A reference variable acts as an *alias* for an existing variable, allowing you to access or modify the original value through that alias
+- Example:
+  -     int main() {
+          string s1 = "abc";
+          string &r1 = s1;
+          // This will change s1 as well
+          r1 = "def";
+        }
+- Example:
+  -     void foo(string &r2) {
+          r2.append("!");
+        }
+
+        int main() {
+          string s1 = "abc";
+          // s1 will change to  "abc!"
+          foo(s1); 
+        }
+- Since there is aliasing, assignment (update) *and* mutation both change the referred-to variable
+### Object Reference Semantics
+- A variable name is bound to a *pointer* that points to a separate object or value
+  - In languages that implement object reference semantics, equality can be done either via **object identity** which is based on pointer comparisons or via **object equality** which is based on equivalent logical values
+    - Python allows for both: `a is b` is based on identity whereas `a == b` is based on value
+      - Custom classes must implement `__eq__(self, other)` to support equality based on value
+- Example:
+  -     def main
+          s1 = "abc"
+          s2 = s1 
+          // Creates a new pointer
+          // s1 is unchanged
+          s2 = "def" 
+- Example:
+  -     def foo(s3)
+          // Mutating methods change original (note this is Ruby, not Python)
+          s2.concat("!")
+          // Reassignment does not - s3 is local
+          s2 = "def"
+        end
+
+        def main
+          s1 = "abc"
+          // s1 becomes "abc!"
+          foo(s1)
+        end
+- Due to the nature of pointers, assignment (update) *does not mutate* the original, but mutation (via methods) *does mutate* the original
+- Object reference semantics is dominant in industry (Javascript, Python, C#, etc.)
+### Aliasing
+- In Reference or Object Reference Semantics, **aliasing** occurs when two parameters to a function unknowingly refer to the same value and the function modifies it, which can cause very subtle and difficult-to-find bugs
+  - This can be avoided by returning *new objects* instead of mutating passed-in objects
+- Example:
+  -     void filter(set<int> &in, set<int> out) {
+          out.clear();
+          for (auto x: in)
+            if (isprime(x)) out.insert(x);
+        }
+
+        int main() {
+          set<int> a;
+          ... // fill up a with #s
+          // This is wrong behavior because 'a' is
+          // cleared out at the beginning of filter
+          filter(a, a);
+        }
+### Name and Need Semantics
+- In **name semantics**, each variable name is equivalent of an expression graph which, once evaluated, yields the final value of the variable
+  - When the  variable's value is needed, the expression represented by the graph is *lazily evaluated* and a value is produced
+  - In implementations, expression graphs are usually implemented using lambda functions
+- Example:
+  -     main = do
+          let x = 5
+          let y = 3 + x
+          let z = y^2 + 7
+          print z
+          print z
+  - Activation Record: `x: 5`, `y: 3+x` (has a pointer to `x`), `z: (y)^2 + 7`
+    - These are evaluated *only* when we need a result (e.g. for printing or for branching), so `z` is evaluated when we need to print it, and this evaluates all dependent nodes (so it evaluates `y`, which evaluates `x`)
+  - In name semantics, expressions are *fully re-evaluated* whenever needed again (so the second `print z` results in the entire expression being computed again)
+    - This is inefficient
+- **Need semantics** is identical to name semantics *except* the language *memoizes* the result of each evaluation to eliminate redundant computations
+  - In the previous example, once `z` is evaluated via the first `print z` statement, it is cached and there is no need to recompute the result for the second `print z` statement
+- Because of how name and need semantics is inherently *lazy*, expressions can *never be evaluated*
+  - A print statement, for example, could never be executed if normally it should due to laziness. The print statements can also be *out of order*
+  - Example: This language has *need* semantics
+    -     object Main extends App {
+            def f(): Int = {
+              println("Getting the value of x now!")
+              1 // Returns 1 
+            }
+
+            lazy val x = f()
+            lazy val y = 3 + x
+            lazy val z = y * y + 2
+            println("About to print!")
+            println(z)
+            println(z)
+          }
+      - Output is: `About to print!`, `Getting the value of x now!`, `18`, `18`
+        - All of the `lazy` variables have their computations deferred until actually needed
+        - This implies that `Getting the value of x now!` print occurs *after* the `About to print!` print (specifically, it occurs when we try to print `z` because `z` requires `y` which requires `x`)
+    - If there were *name* semantics, then some prints would be repeated (specifically, because `z` is required *twice*, `x` is recomputed twice)
+      - `About to print!`, `Getting the value of x now!`, `Getting the value of x now!`, `18`, `18`
