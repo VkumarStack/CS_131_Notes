@@ -1,0 +1,1306 @@
+<!DOCTYPE html><html><head>
+      <title>Data_Palooza</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////Users/vivek/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.8.14/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="data-palooza">Data Palooza </h1>
+<h2 id="variables">Variables </h2>
+<ul>
+<li>A variable is a <em>symbolic name</em> that is associated with a storage location, containing either a <em>value</em> or a <em>pointer to a value</em>
+<ul>
+<li>A value is a <em>piece of data</em> that is either referred to by a variable or computed by a program expression
+<ul>
+<li>Values <em>can be pointers</em>, which themselves refer to <em>values</em></li>
+</ul>
+</li>
+<li>E.g. <code>a: 3.14159</code> associates the variable with a value whereas <code>a: ADDR -&gt; 3.14159</code> associates the variable with a <em>pointer to a value</em></li>
+</ul>
+</li>
+<li>Facets associated with a variable: <em>name</em>, <em>type</em>, <em>value</em>, <em>binding</em>, <em>storage</em>, <em>lifetime</em> (timeframe over which a variable exists, consider garbage collection), <em>scope</em> (when and where the variable name is <em>visible to the code</em>), <em>mutability</em>
+<ul>
+<li>For values, we care about its <em>type</em>, <em>value</em>, <em>storage</em>, <em>lifetime</em>, and its <em>mutability</em></li>
+</ul>
+</li>
+</ul>
+<h2 id="types">Types </h2>
+<ul>
+<li>A <strong>type</strong> is a classification used to identify a category of data, defining a <em>range of values</em>, <em>size and encoding</em>, <em>operations</em>, <em>usage context</em> (e.g. to functions), and <em>ways to convert or cast</em></li>
+<li>Not all variables in languages have a <em>type</em> - if a variable is <em>bound to a single value</em>, then it has a type, but otherwise it could be bound to values of differing types over its lifetime (<code>x = 5</code> and then later on <code>x = "bletch"</code>)
+<ul>
+<li>Values, however, always have an associated type</li>
+</ul>
+</li>
+<li>Types of Types:
+<ul>
+<li><strong>Primitives</strong>: Integers, Floats, Chars, Enums, Bools, Pointers</li>
+<li><strong>Composites</strong>: Unions, Classes, String, Tuples, Structs, Containers</li>
+<li>Others: Functions, Generics (e.g. Templates), Boxed Type (wrap around a primitive, allowing for them to be mutated)</li>
+</ul>
+</li>
+<li>Beyond the built-in types provided by languages, it is often possible for users to <em>define new types</em>
+<ul>
+<li>Every time a class is created, the language <em>implicitly defines a type</em> associated with that class
+<ul>
+<li>This also applies to structs, enums, and interfaces (in general)</li>
+</ul>
+</li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">class Circle {
+  public:
+    ...
+  private:
+    ...
+}
+</pre>
+</li>
+<li>This implicitly defines a new type <code>Circle</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Many types have a <strong>supertype-subtype</strong> relationship, where a <em>subtype inherits properties and behaviors from its supertype</em>
+<ul>
+<li>A key example of this is with <em>class inheritance</em>
+<ul>
+<li>
+<pre class="language-text">class Person {
+  public:
+    virtual void eat()
+      { cout &lt;&lt; "Nom Nom"; }
+    virtual void sleep()
+      { cout &lt;&lt; "Zzzzzzz"; }
+}
+class Nerd: public Person {
+  public:
+    virtual void study()
+      { cout &lt;&lt; "Studying..."; }
+}
+</pre>
+</li>
+<li>This implictly defines types for <em>Nerd</em> and <em>Person</em>, and <em>Nerd</em> is a subtype of <em>Person</em></li>
+</ul>
+</li>
+<li><strong>Interfaces</strong> can also support this relationship, where we say a class <em>implements an interface</em>
+<ul>
+<li>Recall that interfaces are generally <em>abstract</em></li>
+<li>Example: <code>Car implements Washable</code>, so Car is a subtype of Washable</li>
+</ul>
+</li>
+<li>Since each type is associated with a specific set of operations, when a subtype is defined it also inherits <em>all operations of its supertype</em>
+<ul>
+<li>There is an operational relationship here, and this can be used to determine operational compatibility between types to support things like <em>type casting</em> and <em>polymorphism</em></li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">class Person
+  ...
+class Nerd : public Person
+  ...
+void bePersoney(Person &amp;p)
+  ...
+
+Nerd nancy;
+bePersoney(nancy);
+</pre>
+</li>
+<li>Even though <code>nancy</code> is a <code>Nerd</code>, it can still be passed into the <code>bePersoney</code> method because <code>Nerd</code> inherit all functions supported by a <code>Person</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Value types</strong> are types that can be used to instantiate <em>objects or values</em> (and define pointers, objects, and references)
+<ul>
+<li>On the other hand, <strong>reference types</strong> are types that <em>cannot be used to instantiate objects or values</em>, but rather can only be used to define <em>pointers, objects, or references</em>
+<ul>
+<li>An example of this is with <em>abstract classes</em></li>
+</ul>
+</li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">class Dog {
+  public:
+    Dog(string n) { name = n; }
+    void bark() { cout &lt;&lt; "Woof"; }
+  private:
+    string name_;
+}
+
+class Shape {
+  public: 
+    Shape(Color c) { color_c = c; }
+    virtual double area() = 0;
+  private:
+    Color color_;
+}
+
+// This is a value type
+Dog d("Kuma"), *p;
+
+// This is a reference type; we cannot insantiate a Shape object
+// because it is not implemented (it is abstract), so all we can do 
+// is declare a pointer
+Shape *s;
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Type equivalence</strong> is the criteria by which programming languages determine whether two values or variables are of equivalent types
+<ul>
+<li>One approach is to use <strong>name equivalence</strong>, which denotes equivalence if two variables / values have identical type names
+<ul>
+<li>
+<pre class="language-text">struct S { string a; int b; };
+struct T { string a; int b; };
+
+int main() {
+  S s1, s2;
+  T t1, t2;
+  s1 = s2; // Works
+  s1 = t1; // Fails, despite equivalent structure due to name equivalence
+}
+</pre>
+</li>
+<li>This is typical to statically typed languages</li>
+</ul>
+</li>
+<li>Another approach is <strong>structural equivalence</strong>, which denotes equivalence if structures are identical, regardless of type names
+<ul>
+<li>
+<pre class="language-text">type S = { a: string, b: number };
+type T = { a: string, b: number };
+
+function main() {
+  let s1, s2 : S;
+  let t1, t2 : T;
+  s1 = s2; // Works
+  s1 = t1; // Works
+}
+</pre>
+</li>
+<li>This is typical of dynamically typed languages</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Type Checking:
+<ul>
+<li>Strictness:
+<ul>
+<li><strong>Strong Type Checking</strong>: The language's typing system <em>guarantees</em> that all operations are only invoked on objects/values of appropriate types
+<ul>
+<li>This ensures that there will <em>never be undefined behavior at runtime due to type-related issues</em></li>
+<li>For a language to be strongly typed, it must be <strong>type-safe</strong>, meaning it will prevent an operation on variable <em>x</em> if <em>x</em>'s type does not support that operation, and it must be <strong>memory-safe</strong>, meaning that inappropriate memory accesses are prevented
+<ul>
+<li>Memory safety is needed for strong typing because invalid memory accesses can result in types being accessed as if they were a <em>different type</em>
+<ul>
+<li>
+<pre class="language-text">int arr[3] = {10, 20, 30};
+float salary = 120000.50;
+// Because of how variables are stored on the stack, this will access the float like it is an int
+cout &lt;&lt; arr[3];
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>To implement strong typing:
+<ul>
+<li>Before an expression is evaluated, the compiler or interpreter <em>validates</em> that all of the operands used in the expression have compatible types
+<ul>
+<li>
+<pre class="language-text">y = Dog("Koda")
+x = 5 + y // Error
+</pre>
+</li>
+</ul>
+</li>
+<li>All conversions and casts between different types are checked and if the types are incompatible, some sort of error is generated
+<ul>
+<li>
+<pre class="language-text">y = Dog("Koda")
+x = (int)y // Error
+</pre>
+</li>
+</ul>
+</li>
+<li>Pointers are either set to null or assigned to point at a valid object at creation
+<ul>
+<li>
+<pre class="language-text">Dog *x
+print(x) // Error
+</pre>
+</li>
+</ul>
+</li>
+<li>Accesses to arrays are bound checked
+<ul>
+<li>
+<pre class="language-text">int x[5]
+print(x[100]) // Error
+</pre>
+</li>
+</ul>
+</li>
+<li>The language ensures that objects cannot be used after they are destroyed
+<ul>
+<li>
+<pre class="language-text">delete d;
+d-&gt;bark(); // Error
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In a strongly typed language, a type cast is <em>checked</em> (typically at runtime, at the time of the cast) and throw an error if the cast is illegal
+<ul>
+<li><code>C++</code> is <em>not strongly typed</em>, and so it is possible to perform unsafe casts - that is, casts that will succeed with incompatible types</li>
+</ul>
+</li>
+<li>Strongly typed languages are preferred because they reduce software vulnerabilities and can allow for early detection of bugs
+<ul>
+<li>However, strongly typed languages are <em>slower</em> compared to weakly typed languages due to the need to check for safety</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Weak Type Cheecking</strong>: The language's type system does <em>not guarantee</em> that all operations are invoked on objects/values of appropriate types
+<ul>
+<li>Weakly typed languages are <em>not type safe</em> and are <em>not memory safe</em></li>
+<li>There are can be <em>undefined behavior at runtime</em> since errors are not generated upon illegal operations
+<ul>
+<li>This usually means that the behavior is <em>non-deterministic</em>, though if behavior is <em>deterministic</em> (e.g. ran one million times and had the same result each time) for illegal operations then it is not necessarily weakly typed</li>
+<li><em>Implicit behavior</em> is not indicative of weak typing (e.g. implicit cast of <code>"cat"</code> to <code>0</code> and <code>"90"</code> to <code>90</code> when doing <code>10 + "90" + "cat"</code>)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Compile-Time (or before running) versus Runtime:
+<ul>
+<li><strong>Static Typing</strong>: Prior to execution, the type checker determines the type of every expression and ensures all operations are compatible with the types of their operands
+<ul>
+<li>Some statically typed languages have explicit type annotations - e.g. <code>C++</code>: <code>int add(int a, int b) {return a + b; }</code></li>
+<li>Other statically typed languages <em>do not have explicit type annotations</em>: - e.g. <code>Haskell</code>: <code>abs a = if a &gt; 0 then a else (-a)</code>
+<ul>
+<li>Here, there is <em>type inference</em>, as it can be inferred that <code>a</code> is numeric due to the comparison with <code>0</code>, and then it can also infer that the return type is also numeric since the <code>abs</code> function returns a numeric type</li>
+<li>Type inference is never completely simple, as there can be ambiguity (e.g. <code>x + 5</code> could have <code>x</code> inferred as either an <code>int</code> <em>or</em> a <code>double</code>), and so it may be necessary to look at the <em>entire program</em></li>
+</ul>
+</li>
+<li>If the type checker cannot assign distinct types to all variables, functions, and so forth, then it generates a <em>compiler error</em>
+<ul>
+<li>If the program type checks, though, it means the code is mostly safe (though there still might be checks done at runtime)</li>
+</ul>
+</li>
+<li>To support static typing, languages <em>must have a fixed type bound to each variable at definition</em>; once a variable's type is assigned, it cannot be changed
+<ul>
+<li>Example: Consider Python, which is <em>not statically typed</em>
+<ul>
+<li>
+<pre class="language-text">def foo(x):
+  if x &gt; 5:
+    a = 10
+  else:
+    a = "cats"
+</pre>
+</li>
+<li>There is no way a compiler could figure out the type of <em>variable a</em> when <em>compiling</em> this code</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In statically typed languages, there may still be a need to check <em>some</em> types at runtime. This is typically the case when <em>downcasting</em> is performed (cast superclass down to a subclass)
+<ul>
+<li>
+<pre class="language-text">class Person { ... };
+class Student : public Person { ... };
+class Doctor : public Person { ... };
+void partay (Person &amp;p) {
+  // Assumes only students go to parties 
+  Student &amp;s = dynamic_cast&lt;Student &amp;&gt;(p);
+  s.getDrunkAtParty();
+}
+
+int main() {
+  Doctor d("Dr Fauci"); 
+  // This will be compiled, but at runtime this will cause an error
+  partay(d);
+}
+</pre>
+</li>
+<li>The downcast <em>must be checked at runtime</em> because there is no way to know at runtime, in general, whether or not the Person being passed in can actually be downcasted as a student</li>
+</ul>
+</li>
+<li>Static typing checking is <em>conservative</em> - it is entirely possible for static type checking to prevent technically correct programs from compiling because the type checker is overly conservative
+<ul>
+<li>
+<pre class="language-text">void handlePet(Mammal&amp; m) {
+  m.makeNoise(); // Defined for all mammals
+  if (m.name() == "Spot")
+    m.bite(); // Defined only for dogs, not cats
+  else (m.name() == "Meowmer")
+    m.scratch(); // Defined only for cats, not for dogs
+}
+int main() {
+  Dog d("Spot");
+  Cat c("Meowmer");
+  handlePet(d);
+  handlePet(c);
+}
+</pre>
+<ul>
+<li>Although this code would work, it <em>does not compile</em> because the type checker is conservative</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Static typing can be beneficial because it produces faster code (fewer runtime checks), detects bugs earlier in development, and does not require custom code to check types
+<ul>
+<li>As downsides, though, static typing may result in longer compilation and also may not allow perfectly correct code to compile due to the conservative nature of the type checker</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Dynamic Typing</strong>: As the program executes (so at <em>runtime</em>), the type checker ensures that each primitive operation is invoked with values of the right types
+<ul>
+<li>During runtime, if an illegal operation occurs on a value, then an exception is generated or the program crashes
+<ul>
+<li>
+<pre class="language-text">def add(x, y):
+  print(x + y)
+def foo():
+  a = 10
+  b = "cooties"
+  add(a, b) # This will cause an error during runtime
+</pre>
+</li>
+</ul>
+</li>
+<li>Typically, types are <em>not assigned to variables</em> (e.g. Python variables do not have a fixed type, and so they can refer to various types of values over their lifetime)
+<ul>
+<li>For this reason, types are typically associated with <em>values</em> but not the <em>variables holding them</em></li>
+</ul>
+</li>
+<li>Dynamically typed languages perform type checking by storing a <em>type tag</em> along with every value, and this information is used to check all operations
+<ul>
+<li>
+<pre class="language-text">a = 10
+b = "nerd"
+a + b 
+</pre>
+<ul>
+<li><code>a</code> refers to something along the lines of <code>type: int, value: 10</code></li>
+<li><code>b</code> refers to something along the lines of <code>type: string, string: "nerd"</code></li>
+<li>When the add is performed, the type tags of the values stored by each variable are checked, and since they are not compatible with the addition operator an error is raised</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>It is typically necessary in these languages to perform <strong>type introspection</strong> in code to check types <em>explicitly</em>
+<ul>
+<li>E.g. <code>if type(v) == "string" then...</code></li>
+</ul>
+</li>
+<li>Dynamically typed languages can still have <em>type annotations</em>, which require that certain variables (e.g. parameters) must hold a certain type
+<ul>
+<li>This does not restrict the variable because variables do not have types - rather it restricts the type of the value held by the variable</li>
+<li>E.g. <code>print_n(v, n::Int)</code>
+<ul>
+<li>When a variable is passed in for <code>n</code>, the value that the variable is referring to (so referencing the pointer or object reference) is checked to see if the type is of an <code>Int</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>A consequence of dynamic typing is <em>duck typing</em>: at runtime, the program checks the suitability for an operation based on the presence of <em>required methods</em> rather than the object's type
+<ul>
+<li>Because of this, <strong>dynamically typed languages do not involve explicit casting</strong></li>
+<li>
+<pre class="language-text">class PersonInDuckSuit:
+  def quack(self): print('Hi! Uh...I mean quack!')
+class Duck:
+  def quack(self): print('Quack quack quack!')
+class Vehicle:
+  def drive(self): print('Vroom')
+
+def quack_please(x):
+  x.quack()
+
+p = PersonInDuckSuit()
+d = Duck()
+v = Vehicle()
+
+quack_please(p) # Works 
+quack_please(d) # Works 
+quack_please(v) # Raises an error
+</pre>
+</li>
+<li>Python's Duck Typing allows for classes to support certain interfaces by simply defining methids:
+<ul>
+<li>
+<p><code>__iter__</code> and <code>__next__</code> allows for a class to be iterable</p>
+<ul>
+<li>
+<pre class="language-text">class Cubes:
+  def __init__(self, lower, upper):
+    self.upper = upper
+    self.n = lower 
+  def __iter__(self):
+    return self
+  def __next__(self):
+    if self.n &lt; self.upper:
+      s = self.n ** 3
+      self.n += 1
+      return s 
+    else:
+      raise StopIteration
+
+  for i in Cubes(1, 4):
+    print(i)
+</pre>
+</li>
+</ul>
+</li>
+<li>
+<p><code>__str__</code> allows for any class to be printable</p>
+</li>
+<li>
+<p><code>__eq__</code> allows for any class to be comparable</p>
+</li>
+</ul>
+</li>
+<li>Duck typing allows for more flexibility, simpler code, faster prototyping, but is slower and more unsafe</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Gradual Typing</strong>: One can <em>choose</em> whether to specify a type for variables or parameters
+<ul>
+<li>If a variable is untyped, then type errors for that variable are <em>only detected during runtime</em>, but if a variable is typed then <em>some type errors can be detected at compile time</em>
+<ul>
+<li>If an <em>untyped variable</em> is passed to a <em>typed variable</em> (like in a function), then the code would still compile but there would be a <em>runtime check</em>
+<ul>
+<li>
+<pre class="language-text">def square(x : int):
+  return x * x
+def what_happens(y):
+  print(square(y))
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Gradually typed languages use <em>type tags</em> (for runtime checks) and <em>variable types</em> (for compilation checks)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="type-conversions-and-casting">Type Conversions and Casting </h2>
+<ul>
+<li>There is a difference between a <strong>type conversion</strong> and a <strong>type cast</strong>
+<ul>
+<li>A <strong>type conversion</strong> takes a value of type <em>A</em> and generates a <em>new value</em> of type <em>B</em>
+<ul>
+<li>
+<pre class="language-text">int main() {
+  float pi = 3.141;
+  // This is a conversion, because the bit representations are different (floating point versus int)
+  cout &lt;&lt; (int) pi; 
+}
+</pre>
+</li>
+<li>Type conversions are typically used to convert between <em>primitives</em></li>
+</ul>
+</li>
+<li>A <strong>type cast</strong> takes a value of type <em>A</em> and <em>views it as if it were a value of type B</em> - no new value is created
+<ul>
+<li>
+<pre class="language-text">class Person { ... };
+class Student : public Person { ... };
+int main() {
+  Student mary;
+  ...
+  Person &amp;p = (Person &amp;)mary;
+  cout &lt;&lt; "Hi " &lt;&lt; p.name();
+}
+</pre>
+<ul>
+<li>When the cast is performed, the attributes of <code>mary</code> that correspond to a <code>Person</code> object can be accessed, but while <code>mary</code> is cast as a person, the attributes corresponding only to a <code>Student</code> cannot be accessed</li>
+</ul>
+</li>
+<li>
+<pre class="language-text">int main() {
+  int val = -42;
+  // Views val as an unsigned int and prints out 4294967254
+  cout &lt;&lt; (unsigned int) val;
+}
+</pre>
+<ul>
+<li>This is an example of casting without classes</li>
+</ul>
+</li>
+<li>Type casts are typically used with <em>objects</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Conversions and casts can either be <em>explicit</em> or <em>implicit</em>
+<ul>
+<li>Explicit Conversion:
+<ul>
+<li>
+<pre class="language-text">void foo(int i) { ... }
+int main() {
+  float f = 3.14;
+  foo((int)f);
+}
+</pre>
+</li>
+<li>In C++, explicit type conversion can be done also using <code>static_cast</code> - e.g. <code>static_cast&lt;int&gt;(fpi)</code></li>
+<li>In Python: <code>int(fpi)</code></li>
+</ul>
+</li>
+<li>Explicit Cast:
+<ul>
+<li>
+<pre class="language-text">void feed_young(Animal *a) {
+  if (a-&gt;has_fur()) {
+    ((Mammal *)a)-&gt;produce_milk();
+  }
+}
+</pre>
+</li>
+<li>In C++, explicit casts can also be done using <code>dynamic_cast</code> - e.g. <code>dynamic_cast&lt;Student*&gt;(p)</code>
+<ul>
+<li>This will return a <code>nullptr</code> if the cast fails</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Implicit Conversion (aka coercion):
+<ul>
+<li>
+<pre class="language-text">void foo(float f) { ... }
+int main() {
+  int i = 42;
+  foo(i);  
+}
+</pre>
+</li>
+</ul>
+</li>
+<li>Implicit Cast:
+<ul>
+<li>
+<pre class="language-text">void use_potty(Person *p) { p-&gt;poop(); }
+int main() {
+  Nerd *n = new Nerd("paul");
+  use_potty(n);
+}
+</pre>
+</li>
+<li>Most implicit casts are <em>upcasts</em>, meaning they go from a subclass to a superclass
+<ul>
+<li><em>Downcasts</em> are usually explicit because they are not always valid</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Whenever an explicit conversion or cast is performed, what would otherwise be a compile time error check turns into a <em>runtime error check</em>
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">class Person { ... }
+class Student extends Person { ... }
+class Professor extends Person { ... }
+
+class Example {
+  public void do_your_thing(Professor q) {
+    q.give_a_lecture();
+  }
+
+  public void process_person(Person p) {
+    if (p.get_name() == "Carey")
+      // This would not be allowed because p is a Person and may not necessarily be 
+      // a Professor, resulting in a compile-time error
+      
+      // do_your_thing(p);
+
+      // This would now compile, but there would still be a runtime check (if strongly typed)
+      // that would throw an error if the cast is invalid
+      do_your_thing((Professor) p);
+  }
+}
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Most languages have a prioritized set of rules that govern implicit <em>conversions</em> (<strong>coercions</strong>)
+<ul>
+<li>A coercion that converts a <em>narrow type</em> into a <em>wider type</em> is called a <strong>type promotion</strong>
+<ul>
+<li>Example: Converting from an <code>int</code> to a <code>double</code></li>
+</ul>
+</li>
+<li>Example: C++'s rules (from top to bottom)
+<ul>
+<li>If either operand is <code>long double</code> then convert the other to <code>long double</code></li>
+<li>If either operand is <code>double</code> convert the other to <code>double</code></li>
+<li>If either operand is <code>float</code> then convert the other to <code>float</code></li>
+<li>...</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In a <em>strongly typed language</em>, every conversion or cast with potential for an issue is checked for validity at runtime
+<ul>
+<li>In a <em>weakly typed language</em>, some invalid conversions or casts may not be checked at runtime
+<ul>
+<li>There can still be checked casts, such as <code>dynamic_cast</code> in C++</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="scoping">Scoping </h2>
+<ul>
+<li>Every language has <strong>scoping rules</strong>, which govern the visibility of variables in a program
+<ul>
+<li>A variable is <em>in-scope</em> if it can be explicitly accessed by its name in that region</li>
+</ul>
+</li>
+<li>Formally, the <strong>scope</strong> of a variable is the range of a program's instructions where the variable is known. A variable is <em>in-scope</em> if it can be accessed by name in a particular part of a program. A variable in scope has an <strong>active binding</strong></li>
+<li>The set of in-scope variables and functions at a particular point in a program is called its <strong>lexical environment</strong>
+<ul>
+<li>Example:
+<ul>
+<li><img src="./Images/Scoping.png" alt="Scoping"></li>
+<li>The lexical environment when doing <code>cout &lt;&lt; "Puked"</code> is: <code>party()</code>, <code>dinner: "burgers"</code>, <code>drinks: 3</code>, <code>puke: 3</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>A variable can be alive but not be in scope. The <strong>lifetime</strong> (creation to destruction) of a variable may include times when the variable is in scope and also times when it is not in scope
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">void study(int how_long) {
+  while (how_long-- &gt; 0)
+    cout &lt;&lt; "Study!\n";
+  cout &lt;&lt; "Partay!\n";
+}
+
+int main() {
+  int hrs = 10;
+  study(hrs);
+  cout &lt;&lt; "I studied " &lt;&lt; hrs &lt;&lt; " hours!";
+}
+</pre>
+</li>
+<li>The <code>hrs</code> variable has a lifetime that lasts from the start of <code>main</code> to the end, but it is not in scope when <code>study</code> is called</li>
+</ul>
+</li>
+<li>Some programming languages like Python allow you to explicitly control the lifetime of a variable
+<ul>
+<li>
+<pre class="language-text">def main():
+  var = "I exist"
+  ...
+  del var
+  print(var) # Error thrown
+</pre>
+</li>
+<li>This is not the same as controlling the lifetime of the <em>value</em> - this is just deleting the variable</li>
+</ul>
+</li>
+<li>Values have lifetimes and this is often <em>independent</em> from the lifetime of variables
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">class Dingleberry:
+  ...
+def make_dingle():
+  d = Dingleberry()
+  return d
+
+x = make_dingle()
+if x.is_clinging()
+  print("Wipey wipey")
+</pre>
+<ul>
+<li>The variable <code>d</code>'s lifetime ends after the <code>make_dingle</code> function, but its value still is alive even after</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Lexical scoping</strong> is the most dominant scoping approach. Here, all programs are comrpised of a series of nested <em>contexts</em> (e.g. files, classes in those files, functions in those classes, blocks in those functions, etc.)
+<ul>
+<li>All variables that are in scope at a position X in code are determined by looking at X's context first, then looking in successively larger enclosing contexts around X</li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">string a_secret = "Nerds are sexy!";
+
+class Nerd {
+  public:
+  ...
+  void pick_nose(int count) {
+    int j;
+    for (j = 0; j &lt; count; ++j)
+      // Here, everything in scope is: j, count, name, and a_secret
+      cout &lt;&lt; name &lt;&lt; " digs in!\n";
+  }
+
+  private:
+    string name;
+};
+</pre>
+</li>
+</ul>
+</li>
+<li>Python does <code>LEGB</code> rules for lexical scoping: first local, then enclosing, then global, and finally built-in
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">host = 'cindy'
+def party():
+  guest = 'chen'
+  def use_hot_tub():
+    drink = 'white claw'
+    # print is discovered from built-in
+    print(host, 'and', guest, 'are tubbin') # guest is discovered from enclosing, host is discovered from global
+    print('and drinking', drink) # drink is discovered from local
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>The contexts that can be considered here are <em>expressions</em>, <em>blocks</em>, <em>functions</em>, <em>classes</em>, <em>structs</em>, <em>namespaces</em>, and <em>global</em></li>
+<li><img src="./Images/Lexical_Scoping.png" alt="Lexical Scoping">
+<ul>
+<li>Each scope can only access <em>higher scopes</em>, it cannot access scopes at the same level (so a function cannot access the scope of another function even if the parent function calls it)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In <strong>dynamic scoping</strong>, when you reference a variable, the program tries to find it in the current block and its enclosing blocks
+<ul>
+<li>If the variable cannot be found, the program then searches the calling function for the variable, and if that cannot be found then it continues to check that function's calling function and so forth</li>
+<li>Dynamic scoping is dead because it is unintuitive compared to lexical scoping - to understand dynamic scoping, once must know the order of function calls to figure out scoping whereas with lexical scoping it is possible to figure out the scoping just from the structure of the code itself</li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">func foo() {
+  y++;
+  print x, y
+}
+
+func bar() {
+  int y = 32;
+  foo();
+}
+
+func bletch() {
+  int x = -1, y = 5;
+  foo();
+}
+
+func main() {
+  int x = 1000;
+  // With this call:
+  // Call to bar() -&gt; x: 1000, y: 32
+  // bar calls foo() -&gt; x: 1000, y: 33, so 1000 and 33 is printed
+  // After all the functions end, the variables die
+  bar();
+  // Call to bletch() -&gt; x: -1, y: 5
+  // Call to foo() -&gt; x: -1, y: 6, so -1 and 6 is printed
+  bletch();
+}
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="memory-safety">Memory Safety </h2>
+<ul>
+<li>Memory-safe languages <em>prevent memory operations that could lead to undefined behaviors</em>
+<ul>
+<li>Many bugs and hacking vulnerabilities are due to memory unsafety</li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">int[] array = new int[20];
+int i = 400;
+System.out.println(array[i]) // Java will throw an exception here
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Memory <em>unsafe</em> languages allow:
+<ul>
+<li><em>Out-of-bound array indexes and unconstrained pointer arithmetic</em>
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">int arr[10], *ptr = arr;
+arr[-1] = 42; // Out of bounds
+cout &lt;&lt; *(ptr + 100); // Bad pointer arithmetic
+</pre>
+</li>
+</ul>
+</li>
+<li>Memory safe languages will throw an exception for out of bounds access or disallow pointer arithmetic altogether</li>
+</ul>
+</li>
+<li><em>Casting of values to incompatible types</em>
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">int v;
+Student *s = dynamic_cast&lt;Student *&gt;(&amp;v);
+s-&gt;study();
+</pre>
+</li>
+</ul>
+</li>
+<li>Memory safe languages throw an exception or generates a compiler error for invalid casts</li>
+</ul>
+</li>
+<li><em>Use of uninitialized variables or pointers</em>
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">int val, *ptr; // Both uninitialized
+cout &lt;&lt; val; // Could leak info
+*ptr = -10; // Corrupts memory
+</pre>
+</li>
+</ul>
+</li>
+<li>Memory safe languages throw an exception or generate a compiler error, or even hide pointers altogether (e.g. Python)</li>
+</ul>
+</li>
+<li><em>Use of dangling pointers</em>
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">Student *s = new Student("Gerome");
+delete s; // Student is no longer valid
+s-&gt;study(); // Undefined behavior
+</pre>
+</li>
+</ul>
+</li>
+<li>Memory safe languages prohibit programmer-controlled object destruction or ensure that objects are only destroyed when <em>all references to them disappear</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Preventing memory leaks is <em>not necessarily a criteria for memory safety</em>, because this does not result in undefined behavior - the program is still deterministic
+<ul>
+<li>Languages with garbage collection are still capable of running out of memory</li>
+</ul>
+</li>
+</ul>
+<h3 id="garbage-collection">Garbage Collection </h3>
+<ul>
+<li>In <strong>garbage collected</strong> languages, the language manages all memory allocation and de-allocation automatically
+<ul>
+<li>Memory that has been allocated but is <em>no longer referenced</em> is garbage collected</li>
+<li>This eliminates <em>most</em> memory leaks, eliminates dangling pointers and use of dead objects, eliminates double-free bugs, and eliminates manual memory management</li>
+</ul>
+</li>
+<li>As a good rule of thumb, garbage collection occurs for an object when there are no longer any references to that object
+<ul>
+<li>No <em>local variables</em>, no <em>member variables</em>, no <em>global variables</em></li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">public void do_some_work() {
+  Nerd nerd = new Nerd("Jen");
+} // nerd's memory is a candidate for garbage collection
+</pre>
+</li>
+<li>
+<pre class="language-text">public void do_some_work() {
+  Nerd nerd = new Nerd("Jen");
+
+  nerd = new Nerd("Rick"); // Old nerd is candidate for garbage collection
+}
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="mark-and-sweep">Mark and Sweep </h4>
+<ul>
+<li>This is an example of <em>bulk garbage collection</em>, which will typically only occur when memory runs low (so the program freezes execution)</li>
+<li>During the <strong>mark phase</strong>, the algorithm identifies all objects that are <em>still referred to</em> and thus are considered in-use
+<ul>
+<li>An object is in-use if it is one of a key set of <em>root objects</em>, which may include global variables, local variables across all stack frames, and parameters on the <em>call stack</em></li>
+<li>An object is also in-use if it is transitively <em>reachable</em> via a root object - like from following pointers or references from a root object
+<ul>
+<li><img src="./Images/Mark_and_Sweep.png" alt="Mark and Sweep"></li>
+</ul>
+</li>
+<li>Pseudocode:
+<ul>
+<li>
+<pre class="language-text">def mark():
+  roots = get_all_roots_objs()
+  candidates = new Queue()
+  for each obj_ref in roots:
+    candidates.enqueue(obj_ref)
+    mark_as_in_use(obj_ref)
+  
+  while not candidates.empty():
+    c = candidates.dequeue()
+    for r in get_obj_refs_in_object(c):
+      if not is_marked(r):
+        mark_as_in_use(r)
+        candidates.enqueue(r)
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>During the <strong>sweep phase</strong>, the algorithm scans all heap memory from start to finish and frees all blocks not marked as being 'in-use'
+<ul>
+<li>Each block in the heap holds a single object / value / array, and also has an <em>in-use flag</em></li>
+<li>Recall that heap objects have a <em>header</em> denoting its size, previous object address, and next object address, and so it can be traversed (like a linked-list), freeing all objects with the in-use flag not set
+<ul>
+<li>Freeing memory requires changing the <code>next</code> and <code>prev</code> pointers, as well as coalescing adjacent free blocks together</li>
+<li><img src="./Images/Heap.png" alt="Heap"></li>
+</ul>
+</li>
+<li>Pseudocode:
+<ul>
+<li>
+<pre class="language-text">def sweep():
+  p = pointer_to_first_block_in_heap()
+  end = end_of_heap()
+  while p &lt; end:
+    if is_object_in_block_in_use(p):
+      reset_in_use(p)
+    else:
+      free(p)
+    p = p.next
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>An issue with the mark and sweep approach is <strong>memory fragmentation</strong>, which make it very slow or even impossible to find free chunks of memory big enough to accomodate new object allocations
+<ul>
+<li><img src="./Images/Fragmentation.png" alt="Fragmentation"></li>
+<li>No more coalescing can be done here</li>
+</ul>
+</li>
+</ul>
+<h4 id="mark-and-compact">Mark and Compact </h4>
+<ul>
+<li>In <strong>mark and compact</strong>, there is no sweeping phase but rather a <em>compacting phase</em>, where all marked objects are compacted to a new <em>contiguous</em> block of memory
+<ul>
+<li>By doing this, though, all existing pointers are now <em>wrong</em> so they must adjusted to the proper relocated address</li>
+</ul>
+</li>
+<li>Mark and compact is an expensive operation, but it prevents fragmentation</li>
+<li>This also limits memory to <em>half of available memory</em>, since the other half must be reserved for compacting
+<ul>
+<li>One half is free, the other half has the allocated objects, and this goes back and forth</li>
+</ul>
+</li>
+<li>With both mark and sweep and mark and compact, it is impossible to predict when (and if) a given object will actually be freed by the collector - collection only occurs if there is memory pressure
+<ul>
+<li>Since it is not known exactly when an object is garbage collected, there can be issues if those objects are hogging resources (other than memory) despite them being candidates for being garbage collected
+<ul>
+<li>Example: If each object creates a large temporary file that is deleted upon destruction, and a device has a large amount of RAM, then the collector will likely not run and get rid of these temporary files</li>
+<li>This requires programmers to free resources manually rather than rely on garbage collectors</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="reference-counting">Reference Counting </h4>
+<ul>
+<li>This is not a bulk method, but occurs continuously</li>
+<li>Every object has a hidden count that tracks <em>how many references there are to it</em>
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">def foo():
+  # The value associated with x (aka the string) has 1 reference now
+  x = "I love dogs"
+  # Reference count increments to now be 2
+  y = x 
+
+  # Decrements reference count, so it is now 1
+  # Technically, there is now a reference count of 1 also for the 'None' object
+  x = None
+
+  # Going out of scope, the reference count for each is now decremented
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>When an object is destroyed (its reference count hits zero), <em>all</em> objects transitively referenced by that object must also have their reference counts decreased
+<ul>
+<li><img src="./Images/Reference_Counting.png" alt="Reference Count">
+<ul>
+<li>When <code>v</code> goes away, its reference count goes to zero but then all transitive references (<code>engine</code>, <code>brake</code>, <code>wheel</code>, <code>blinkers</code>) also each decrease their reference count</li>
+</ul>
+</li>
+<li>This can imply that <em>many</em> reference counts can be decremented (cascading) on just a single object disappearing
+<ul>
+<li>This can, however, be ammortized by keeping a queue of pending references to be deleted and then deleting in batch (e.g. 100 references deleted at a time) rather than doing a full cascade</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>An issue with referencing counting is that it fails with <em>cyclical references</em>
+<ul>
+<li>If <code>a</code> points to <code>b</code> and <code>b</code> points to <code>a</code>, then the reference count of <code>a</code> and <code>b</code> will never go to zero</li>
+<li>Other techniques will need to be used in this case</li>
+</ul>
+</li>
+<li>Referencing counting still suffers from fragmentation, since freed memory is not compacted
+<ul>
+<li>There is also a downside in that we may need to reserve extra memory for the reference counts per each object</li>
+</ul>
+</li>
+</ul>
+<h3 id="ownership-model">Ownership Model </h3>
+<ul>
+<li>An alternative to garbage collection is the <strong>ownership model</strong>, which is followed by Rust and C++ (with their smart pointers)
+<ul>
+<li>The ownership model is done at <em>compile-time</em>, so there is no downsides of garbage collection (which happens during runtime)</li>
+</ul>
+</li>
+<li>In the ownership model, every object is "owned" by one or more variables. When the last owner variable's lifetime ends, the object it owns is freed automatically
+<ul>
+<li>In some implementations, ownership can be transferred to a new variable, invalidating the old variable
+<ul>
+<li>
+<pre class="language-text">var s1 = new String("I'm owned")
+var s2 = s1 // Transfers ownership to s2 and invalidates s1
+print(s1) // Error
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In Rust's ownership model, every object is owned by a <em>single variable</em> in the program
+<ul>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">fn foo(s3: String) {
+  println!("{}", s3);
+}
+
+fn main() {
+  let s1 = String::from("I'm owned!!");
+  let s2 = s1; // Ownership is transferred to s2
+  // println!("{}", s1); // Compiler error
+
+  foo(s2); // Ownership is transferred from s2 to s3
+  // Because after foo(), the lifetime of s3 (which is the owner)
+  // ends, the memory is freed automatically
+  // println!("{}", s2); // Compiler error
+}
+</pre>
+</li>
+</ul>
+</li>
+<li>Rust supports <em>borrowing</em>, where a variable may refer to an object without taking ownership
+<ul>
+<li>The borrower may request <em>exclusive</em> read/write access (for thread safety) or <em>non-exclusive</em> read/write access</li>
+<li>Example:
+<ul>
+<li>
+<pre class="language-text">fn foo(s3: String) {
+  println!("{}", s3);
+}
+
+fn main() {
+  let s1 = String::from("I'm owned!!");
+  let s2 = s1; // Ownership is transferred to s2
+
+  foo(&amp;s2); // Borrowing
+  println!("{}", s2);
+}
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In C++, a <strong>smart pointer</strong> works like a traditional pointer but also provides automatic memory management
+<ul>
+<li>Each smart pointer holds a traditional pointer that refers to a dynamically allocated object or array, and is the <em>owner</em> of its assigned heap-allocated object
+<ul>
+<li>It is responsible for freeing its memory when no longer needed</li>
+</ul>
+</li>
+<li>When copies are made of a smart pointer, they coordinate and keep track of how many of them refer to the shared resource</li>
+<li><code>std::unique_ptr</code> is a smart pointer that <em>exclusively</em> owns the responsibility for freeing a heap allocated object (typically when it goes out of scope)
+<ul>
+<li>
+<pre class="language-text">#include&lt;memory&gt;
+#include "nerd.h"
+int main() {
+  std::unique_ptr&lt;Nerd&gt; p = std::make_unique&lt;Nerd&gt;("Carey", 100);
+  p-&gt;study(); // p acts like a regular pointer
+} // As soon as p goes out of scope, since it is a local variable its destructor is called and it will automatically free the memory
+</pre>
+</li>
+<li>Copies cannot be made of unique_pointers
+<ul>
+<li>This implies that it cannot be stored in data structures (since this would make a copy of the pointer)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>std::shared_pointer</code> is a smart pointer that <em>shares</em> the responsibility for freeing a heap allocated object
+<ul>
+<li>
+<pre class="language-text">#include&lt;memory&gt;
+#include "nerd.h"
+std::vector&lt;std::shared_ptr&lt;Nerd&gt;&gt; all_my_nerds;
+void keep_track_of_nerd(std::shared_ptr&lt;Nerd&gt; n) {
+  // Pushing back the pointer itself now adds another reference, so the total count here is 3
+  all_my_nerds.push_back(n);
+} // When this ends, the parameter n goes out of scope the count decrements to be 2
+
+int main() {
+  // The object has one reference count 
+  std::shared_ptr&lt;Nerd&gt; p = std::make_shared&lt;Nerd&gt;("Carey", 100);
+  // Calling the method makes a copy of the pointer, so there is another shared pointer and now the reference count increases by one (to a total of 2)
+  keep_track_of_nerd(p);
+} // P goes out of scope, so reference count decrements to 1
+
+// Globals go out of scope, so reference count decrements to 0 and so the memory is freed
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="destructors-finalizers-and-disposal-methods">Destructors, Finalizers, and Disposal Methods </h3>
+<ul>
+<li>Objects may hold non-memory resources (dynamic objects, temporary files, etc.) which need to be released when their lifetime ends</li>
+<li><strong>Destructor</strong> methods are automatically called when an object's lifetime ends, and it is <em>guaranteed</em> that a destructor will run <em>immediately</em> at this time
+<ul>
+<li>Resources and their disposal can be <em>controlled</em>
+<ul>
+<li>
+<pre class="language-text">TempFile* temp_file = new TempFile();
+...
+if (dont_need_anymore())
+  delete t;
+</pre>
+</li>
+</ul>
+</li>
+<li>This is common in non-garbage-collected languages, such as C++</li>
+</ul>
+</li>
+<li><strong>Finalizer</strong> methods are like destructors, but they are called by the <em>garbage collector</em> before it frees the object's memory
+<ul>
+<li>These are used to release unmanaged resources (like file  handles or network connections) which are not garbage collected, but since they are not guaranteed to run, finalizers are a <em>last line of defense</em>
+<ul>
+<li>
+<pre class="language-text"># Python finalizer
+class SomeClass:
+  def __del__(self):
+    # Finalization code goes here
+</pre>
+</li>
+</ul>
+</li>
+<li>Since garbage collection can occur at any time (or not even at all due to it only occurring because of <em>memory pressure</em>), finalizers are <em>non-deterministic</em> - one cannot predict when or if a finalizer will run</li>
+</ul>
+</li>
+<li><strong>Manual disposal</strong> methods involve the programmer explicitly adding a disposal method for an object and updating their code to <em>explicitly call</em> it to force the disposal of resources - this is like a manually invoked destructor
+<ul>
+<li>This allows a <em>guaranteed way</em> to free non-memory resources, with the cost that it <em>must be manually called</em></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
