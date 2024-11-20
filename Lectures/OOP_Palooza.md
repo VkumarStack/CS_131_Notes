@@ -282,6 +282,38 @@
   - Interface inheritance should be used when there is a *can-support* relationship between a class and a group of behaviors or when there are different classes that all need to support related behaviors but are not related to the base class 
     - Abstract classes should be used instead of interfaces when a base class has common code that multiple derived classes can inherit and use (e.g. an abstract `Car` class has an implemented `drive` method common across all cars, but derived classes might have other differing implementations like `refuel` for `ElectricCar` versus `refuel` for `GasCar`)
 - **Implementation Inheritance**: A base class's method is *reused privately*. A derived class inherits method implementations from a base class.
+  - The derived class inherits the *method implementations* of the base class, but it does *not* expose the base class's public interface *or* type
+  - Example: In C++, this can be done with *private* inheritance 
+    -     class Collection {
+            public:
+              void insert(int x) { ... }
+              bool delete(int x) { ... }
+              int count(int x) const { ... }  
+          };
+          // Set can internally use all Collection methods
+          // But externally, the Collection methods cannot be 
+          // used from an instance of Set
+          class Set: private Collection {
+            public:
+              void add(int x)
+                { if (count(x) == 0) insert(x); }
+              bool erase(int x) 
+                { return delete(x); }
+              bool contains(int x) const
+                { return count(x) > 0; }
+          }
+
+          int main() {
+            Set s;
+            s.add(10);
+            if (s.contains(10))
+              cout << "Our set contains 10\n";
+            // Raises an error:
+            cout << "Count of 10s: " << s.count(10) << endl;
+          }
+    - In this example, a `Set` is *not* a subtype of `Collection` - so we cannot pass `s` to a function that accepts `Collection` objects. The operations of `Collection` cannot be used publicly by `Set`, so it would not be able to work in a function requiring `Collection` objects
+  - The point of this is to *use* the implementation of the base class but *not* expose it publicly
+    - However, implementation inheritance is generally frowned upon. Rather, delegation should be used instead.
 - **Subclassing Inheritance** (Mixture of both): A base class provides a *public interface and implementations* for its methods. A derived class inherits both the base class's interface *and* its implementations
   - The base class defines *public methods* with optional implementations as well as private/protected methods. The derived class inhrerits the base class's public interface and all of its method's implementations. The derived class may add new methods or override existing implementations
   - Example: C++ (only `virtual` methods must be overriden; non-virtual functions are *final*)
@@ -301,9 +333,231 @@
                 { rad_r = r; }
               float radius() const { return rad_; }
               float area() const { return PI * rad_ * rad_; }
+              // Override
               virtual void disappear() {
                 for (int i = 0; i < 10; ++i)
                   rad_ *= 0.1;
                   Shape::disappear();
               }
           }
+  - Subclassing should be used when there is a *is-a* relationship and when you expect the subclass to share the *entire* public interface of the superclass *and* maintain the semantics of the superclass's methods
+    - Example: Subclassing should not be used for `Set` deriving from `Collection` because `Set` does not follow the same semantics as a `Collection` - semantically, we allow a `Collection` to hold duplicates while we do *not* allow a `Set` to have duplicates
+  - One issue with subclassing inheritance is *fragility*: Derived classes are susceptible to changes in the base class 
+    - Example:
+      -     class Container {
+              public:
+                virtual bool contains(int x) const {...}
+                virtual void insert(int x) { v_.push_back(x); }
+                virtual void insertAll(vector<int>& items) {
+                  for(const int x: items)
+                    // removed:
+                    // insert(x);
+                    // added:
+                    v_.push_back(x);
+                }
+              private:
+                vector<int> v_;
+            }
+            class Set: public Container {
+              public:
+                virtual void insert(int x) {
+                  if (!contains(x)) Container::insert(x);
+                }
+            }
+      - Changing the Container's `insertAll` unknowingly breaks the Set's functionality because Set depends on each insertion using its (Set's) own `insert` method
+  - An alternative to subclassing is to use **delegation**, where a class *embeds* an original object as a member variable and calls its functions directly - this allows for certain methods to be hidden 
+    - Example:
+      -     class Collection {
+              public:
+                void insert(int x) { ... }
+                bool delete(int x) { ... }
+                int count(int x) const { ... }
+            };
+
+            class Set {
+              public:
+                void insert(int x) {
+                  if (c_.count(x) == 0) c_.insert();
+                }
+                bool delete(int x) {
+                  return c_.delete(x);
+                }
+                bool contains(int x) const {
+                  return c_.count(x) == 1;
+                }
+                ...
+              private:
+                Collection c_; // composition
+            }
+- **Prototypal Inheritance**: In languages with objects, *but no classes*, objects inherit from one or more *prototype objects*
+  - In JavaScript, for example, every object has a hidden reference to a *parent object* (with the default being the built-in empty Object). This prototype can be explicitly set to another object, allowing for inheritance    
+    - Example:
+      -     obj1 = {
+              name: "",
+              job: "",
+              greet(): { return "Hi, I'm " + this.name; },
+              my_job(): { return "I'm a " + this.job; }
+            };
+            // obj2 inherits all of obj1 properties
+            obj2 = {
+              // This shadows the original
+              name: "Carey",
+              job: "comedian",
+              tell_joke(): { return "USC education"; },
+              __proto__: obj1
+            }
+
+            obj.greet(); // outputs "Hi, I'm Carey"
+### Construction, Destruction, and Finalization
+- When an object of a derived class is instantiated:
+  - The derived class constructor first calls its *superclass's constructor* to initialize the base parts of the object first, and *then* it initializes its own parts of the object
+  - In many languages, if the base class constructor takes no parameters, then *usually* you do not need to explicitly call its constructor in the derived class (it is *implicitly* called)
+    - Not all languages do this, though - e.g. Python
+  - Example:
+    -     class Person {
+            public Person(String name) {
+              this.name = name;
+            }
+            private String name;
+          }
+          class Nerd extends Person {
+            public Nerd(String name, int IQ) {
+              super(name);
+              this.IQ = IQ;
+            }
+            private int IQ;
+          }
+          class ComedianNerd extends Nerd {
+            public ComedianNerd(String name, int IQ, String joke) {
+              super(name, IQ);
+              this.joke = joke;
+            }
+            private String joke;
+          }
+- When an object of a derived class is destructed or finalized:
+  - Each destructor runs its code and then implicitly calls the destructor of its superclass - this is the reverse order of construction 
+  - Finalizers *may* require an explicit call to the superclass's finalizer 
+### Overriding Methods and Classes
+- Languages typically require some sort of specification of whether a method can or cannot be overriden in a derived class
+  - Example: In C++, methods can only be overriden if they have the `virtual` keyword (everything by default *is not* overridable)
+  - Example: In Java, mnethods cannot be overriden if they have the `final` keyword (everything by default *is* overridable)
+- Languages typically offer keywords to *indicate* that a derived class is explicitly overriding a method from a base class (e.g. `override` keyword)
+  - Sometimes, these keywords are optional. However, it is good practice to include the keyword because a programmer might accidentally *overload* the method rather than *override* it
+    - By including an `override` keyword, the compiler can catch that no overriding is actually being done and raise an error to alert the programmer 
+    - Example: C++
+      -     class Person {
+              public:
+                virtual void talk() 
+                  { cout << "I'm a person!\n"; }
+                ...
+            };
+            class Student: public Person {
+              public:
+                // We meant to override here, but we accidentally overloaded
+                // With the override keyword though, the compiler would 
+                // catch the issue
+                virtual void talk(string to) override {
+                  cout << "Hi " << "to" << " I'm a student!\n";
+                }
+            }
+- Languages typically allow for a derived version of a method to use the superclass implementation 
+  - One way this is supported is by prefixing the method with the appropriate class name (e.g. the base class name)
+    - Example: C++
+      -     class Person {
+              public:
+                virtual void poop() const 
+                  { cout << "Plop!\n"; }
+            }
+            class CleanPerson: public Person
+            {
+              public:
+                virtual void poop() const {
+                  Person::poop();
+                  cout << "Wipey wipey!\n";
+                }
+            }
+  - Another way to support this is to allow the `super` keyword to call the method from the *immediate* superclass - methods above the superclass cannot be accessed 
+    - This is typically considered better practice because it does not break encapsulation - we do not want a derived class to access anything above its superclass
+    - Example: Java 
+      -     class Person {
+              public void poop() {
+                System.out.println("Plop!\n");
+              }
+            }
+            class CleanPerson extends Person {
+              public void poop() {
+                super.poop();
+                System.out.println("Wipey wipey\n");
+              }
+            }
+  - Some languages allow both:
+    - Example: Python
+      -     class Person:
+              def poop(self):
+                print("Plop!")
+            class CleanPerson(Person):
+              def poop(self):
+                super().poop()
+                Person.poop(self)
+                print("Wipey wipey")
+### Multiple Inheritance
+- Some languages allow a class to be derived from *multiple base classes*
+  - Example: C++
+    -     class SmartPhone: public Phone, public Camera {
+            ...
+          }
+- While this can work usually, it does have its issues - namely, the **diamond pattern**
+  - Example:
+    -     class CollegePerson {
+            public:
+              CollegePerson(int income) { income_ = income; }
+              int income() const { return income_; }
+            private:
+              int income_;
+          }
+          class Student: public CollegePerson {
+            public:
+              Student(int part_time_income) : CollegePerson(part_time_income)
+                { ... }
+          }
+          class Teacher: public CollegePerson {
+            public:
+              Teacher(int teaching_income) : CollegePerson(teaching_income)
+                { ... }
+          }
+          class TA: public Student, public Teacher {
+            public:
+              TA(int part_time_income, int ta_income) : 
+                Student(part_time_income),
+                Teacher(ta_income)
+                { ... }
+          }
+          int main() {
+            TA amy(1000, 8000);
+            cout << "Amy's pay is $" << amy.income();
+          }
+    - In the example, `amy` has *two* income members (one for `Student` and one for `Teacher`), and so an error will be raised when `amy.income()` is called because it is ambigious as to which one should be used
+- Multiple subclass inheritance should be *avoided* altogether; instead, multiple interface inheritance should be used
+  - Even if multiple interfaces share the same method requirement - a class implementing multiple interfaces only implements *one* method
+### Subtype Polymorphism
+- **Subtype polymorphism** is when an object of a subtype (e.g. `Nerd`) is used where a supertype (e.g. a `Person`) is expected
+  - This can be done because the subclass is guaranteed to support all operations of the superclass 
+  - This holds for classes that implement an interface as well
+- When the subtype *overrides* the a method of the *supertype*, the most recent version of the method (e.g. the derived class's version) is used even when a method operates on the superclass 
+- This is not necessary in *dynamically typed languages* since dynamically typed languages support duck typing - the methods are just called irrespective of type and if the object supports the type then it just works
+  - Variables do not have types, so there is no way to "view" it as another type in a method
+- For subtype polymorphism, it is important to ensure that the methods of the subclass follow the same *semantics* of the superclass
+  - Example:
+    -     class Shape {
+            public:
+              virtual double getRotationAngle()  const {
+                // Returns angle in radians
+              }
+          }
+          class Square : public Shape {
+            public:
+              virtual double getRotationAngle() const {
+                // Return angle in degrees 
+              }
+          }
+    - Although this will *compile*, it will result in logical errors because the semantics differ
