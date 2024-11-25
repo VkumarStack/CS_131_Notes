@@ -539,7 +539,7 @@
     - In the example, `amy` has *two* income members (one for `Student` and one for `Teacher`), and so an error will be raised when `amy.income()` is called because it is ambigious as to which one should be used
 - Multiple subclass inheritance should be *avoided* altogether; instead, multiple interface inheritance should be used
   - Even if multiple interfaces share the same method requirement - a class implementing multiple interfaces only implements *one* method
-### Subtype Polymorphism
+## Subtype Polymorphism
 - **Subtype polymorphism** is when an object of a subtype (e.g. `Nerd`) is used where a supertype (e.g. a `Person`) is expected
   - This can be done because the subclass is guaranteed to support all operations of the superclass 
   - This holds for classes that implement an interface as well
@@ -561,3 +561,93 @@
               }
           }
     - Although this will *compile*, it will result in logical errors because the semantics differ
+  - Liskov Substitution Principle:
+    - **Interface Consistency**: The subtype must support *all* methods and operations of the supertype
+    - **Semantic Consistency**: The subtype must ensure its methods/operations behave consistently with those of the supertype
+    - **Respects Preconditions**: The subtype cannot have weaker conditions than the supertype for its methods or operations 
+      - E.g. If `Shape.set_coord(x, y)` requires `x` and `y` be positive, then `Circle.set_coord(x, y)` must also enforce positive coordinates 
+    - **Ensures Postconditions**: A subtype's methods must guarantee the same or stronger outcomes than the supertype
+      - E.g. If `Shape.area()` returns a positive integer, then `Circle.area()` must also return a positive integer
+## Dynamic Dispatch
+- Consider a variable `var` that points to some object
+  - With dynamic dispatch, when a method is called on `var`, e.g. `var.method()`, the actual method that gets called is determined *at runtime* based on the target object that `var` refers to
+  - This is determined either based on the object's *class* or by seeing if the object has a *matching method*
+- In statically typed languages, the language examines the class of an object at the time of a method call and uses this to *dynamically dispatch* to the class's method
+  - This is determined at *runtime*, *NOT at compile-time*
+  - Example:  
+    -     class Person {
+            public:
+              virtual void talk() { cout << "I'm a person"; }
+              virtual void listen() { cout << "Oh, I see!"; }
+          };
+          class Student: public Person {
+            public:
+              virtual void talk() { cout << "I hate finals."; }
+              virtual void listen() { cout << "Sorry, I wasn't awake!"; }
+          };
+          class Professor: public Person {
+            public:
+              virtual void talk() { cout << "Confusing theorem"; }
+              virtual void listen() { cout << "No questions!"; }
+          };
+          
+          void interactWith(Person &p) {
+            p.talk();
+          }
+
+          int main() {
+            Student a;
+            // Forwards to Student's implementation of talk()
+            interactWith(a);
+
+            Professor b;
+            // Forwards to Professor's implementation of talk()
+            interactWith(b);
+          }
+- For statically typed languages, when a *class* (not object) is defined, the language creates a *table* that maps each virtual method to its proper implementation. Objects have a *hidden* pointer to the vtable corresponding to its class
+  - Non-virtual methods are *not* stored in a vtable because they can be determined at compile time - they are **statically dispatched**
+  - Example:
+    -     class Car {
+            public:
+              string getLicensePlate() { ... }
+              virtual void speedUp(int accel) { ... }
+              virtual void slowDown(int decel) { ... }
+              virtual void steer(int angle) { ... }
+          }
+          class HybridCar: public Car {
+            public:
+              virtual void speedUp(int accel) { ... new implementation ... }
+              virtual void slowDown(int decel) { ... new implementation }
+          }
+    - Car's vtable:
+      -     speedUp -> Car::speedUp
+            slowDown -> Car::slowDown
+            steer -> Car::steer
+    - HybridCar's vtable:
+      -     speedUp -> HybridCar::speedUp
+            slowDown -> HybridCar::slowDown
+            steer -> Car::steer 
+    - Note how neither vtables contain **getLicensePlate()** - this method is *not* virtual, and so it cannot be overriden and can be determined without ambiguity at compile-time
+- For dynamically typed languages, the programmer can *add or remove methods at runtime* to classes or even individual objects 
+  - This means, when a method is called, the language cannot necessarily rely upon an object's class to figure out what method to use 
+  - For dynamically typed languages, each object has its *own vtable*
+  - Example:
+    -     function makeThemTalk(p) {
+            console.log(p.name + " says: " + p.talk())
+          }
+          var person = {
+            name: "Alan Kay",
+            talk: function() { return "Java is meh"; },
+            change: function() {
+              this["talk"] = function() {return "I <3 Smalltalk";}
+            }
+          }
+          var bird = {
+            name: "bluebird",
+            talk: function() { return "Chirp chirp"; }
+          }
+          makeThemTalk(person);
+          person.change();
+          makeThemTalk(person);
+          makeThemTalk(bird);
+    - Each object has its "own" vtable essentially storing its `talk()` method
