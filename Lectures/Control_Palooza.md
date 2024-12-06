@@ -512,3 +512,4 @@
         # Dinner prep is done!
   - When `await prepare_ingredients()` is called, the sleep in the method (which is considered an `I/O`) task pauses the execution of that routine (which is the `main` routine because it is immediately calling prepare_ingredients)
   - This means that the `heat_oven()` routine is queued right after, and once it completes and the sleep finishes, the `main` coroutine continues off from the call from `prepare_ingredients`
+- 
